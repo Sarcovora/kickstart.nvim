@@ -170,6 +170,43 @@ vim.opt.expandtab = true
 vim.opt.autoindent = true
 vim.opt.smartindent = true
 
+-- NOTE: folding
+
+-- Enable fold saving across sessions
+vim.opt.viewoptions:append 'folds'
+
+vim.opt.foldmethod = 'indent'
+
+-- Start with all folds open by default
+vim.opt.foldlevelstart = 99
+
+-- Automatically save folds when leaving a buffer
+vim.cmd [[
+  augroup remember_folds
+    autocmd!
+    autocmd BufWinLeave * silent! mkview
+    autocmd BufWinEnter * silent! loadview
+  augroup END
+]]
+
+-- NOTE: wrapping
+vim.opt.wrap = false
+
+-- NOTE: comments
+-- Disable automatic comment continuation and wrapping
+vim.opt.formatoptions:remove { 'c', 'r', 'o' }
+
+-- Use // for single-line comments in C
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'c',
+  command = 'setlocal commentstring=//\\ %s',
+})
+
+-- Disable auto-comment insertion when pressing Enter after a comment
+vim.api.nvim_create_autocmd('BufEnter', {
+  pattern = '*',
+  command = 'setlocal formatoptions-=o',
+})
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
