@@ -123,10 +123,10 @@ vim.api.nvim_create_autocmd('BufEnter', {
 })
 
 -- Normal mode: Toggle comment on the current line
-vim.api.nvim_set_keymap('n', '<C-/>', 'gcc', { noremap = false, silent = true })
+-- vim.api.nvim_set_keymap('n', '<C-/>', 'gcc', { noremap = false, silent = true })
 
 -- Visual mode: Toggle comment on the selected lines
-vim.api.nvim_set_keymap('v', '<C-/>', 'gc', { noremap = false, silent = true })
+-- vim.api.nvim_set_keymap('v', '<C-/>', 'gc', { noremap = false, silent = true })
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -903,7 +903,7 @@ require('lazy').setup({
   -- require 'kickstart.plugins.debug',
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
-  -- require 'kickstart.plugins.autopairs',
+  require 'kickstart.plugins.autopairs',
   -- require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
