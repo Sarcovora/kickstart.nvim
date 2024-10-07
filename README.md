@@ -137,6 +137,7 @@ sudo apt install make gcc ripgrep unzip git xclip neovim
 </details>
 
 <details><summary>Linux Install</summary>
+
 <details><summary>Ubuntu Install Steps</summary>
 
 ```
