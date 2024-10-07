@@ -71,7 +71,7 @@ vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
 -- vim.opt.scrolloff = 10
-vim.opt.scrolloff = 8
+vim.opt.scrolloff = 5
 
 -- Buffer related options
 vim.opt.hidden = true
@@ -817,19 +817,11 @@ require('lazy').setup({
     end,
   },
 
-  { -- You can easily change to a different colorscheme.
-    -- Change the name of the colorscheme plugin below, and then
-    -- change the command in the config to whatever the name of that colorscheme is.
-    --
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    -- 'folke/tokyonight.nvim',
+  { -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
     -- 'catppuccin/nvim',
     'rose-pine/neovim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     init = function()
-      -- Load the colorscheme here.
-      -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
       -- vim.cmd.colorscheme 'tokyonight-night'
       -- vim.cmd.colorscheme 'catppuccin-mocha'
       vim.cmd.colorscheme 'rose-pine'
@@ -914,39 +906,25 @@ require('lazy').setup({
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
   },
 
-  -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
-  -- init.lua. If you want these files, they are in the repository, so you can just download them and
-  -- place them in the correct locations.
+  -- PROVIDED PLUGINS (kickstart.nvim)
+  -- require 'plugins.debug',
+  require 'plugins.indent_line', -- adds vertical lines to show indent levels
+  -- require 'plugins.lint',
+  require 'plugins.autopairs',
+  require 'plugins.neo-tree',
+  -- require 'plugins.gitsigns', -- adds gitsigns recommend keymaps
 
-  -- NOTE: Next step on your Neovim journey: Add/Configure additional plugins for Kickstart
-  --
-  --  Here are some example plugins that I've included in the Kickstart repository.
-  --  Uncomment any of the lines below to enable them (you will need to restart nvim).
-  --
-  -- require 'kickstart.plugins.debug',
-  require 'kickstart.plugins.indent_line', -- adds vertical lines to show indent levels
-  -- require 'kickstart.plugins.lint',
-  require 'kickstart.plugins.autopairs',
-  require 'kickstart.plugins.neo-tree',
-  -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
-
-  -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
-  --    This is the easiest way to modularize your config.
-  --
-  --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
-  -- { import = 'custom.plugins' },
-  require 'custom.plugins.init',
-  require 'custom.plugins.colorizer',
+  -- MY PLUGINS
+  require 'plugins.colorizer',
   -- require 'custom.plugins.copilot',
-  require 'custom.plugins.dashboard',
-  require 'custom.plugins.markdown_preview',
-  require 'custom.plugins.oil',
-  require 'custom.plugins.render_markdown',
-  require 'custom.plugins.treesj',
-  require 'custom.plugins.lazygit',
-  require 'custom.plugins.yazi',
-  require 'custom.plugins.neoscroll',
+  -- require 'plugins.dashboard',
+  require 'plugins.markdown_preview',
+  require 'plugins.oil',
+  require 'plugins.render_markdown',
+  require 'plugins.treesj',
+  require 'plugins.lazygit',
+  require 'plugins.yazi',
+  require 'plugins.neoscroll',
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the

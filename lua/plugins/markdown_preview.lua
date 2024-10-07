@@ -18,7 +18,7 @@ return {
 
     -- vim.g.mkdp_markdown_css = '../../../md.css'
     -- vim.g.mkdp_highlight_css = '../../../mdhl.css'
-    vim.g.mkdp_markdown_css = '/Users/ekuo/.config/md.css'
-    vim.g.mkdp_highlight_css = '/Users/ekuo/.config/mdhl.css'
+    vim.g.mkdp_markdown_css = '/Users/ekuo/.config/nvim/plugin-data/md.css'
+    vim.g.mkdp_highlight_css = '/Users/ekuo/.config/nvim/plugin-data/mdhl.css'
   end,
 }
