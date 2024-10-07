@@ -3,6 +3,5 @@
 
 return {
   'github/copilot.vim',
-  enabled = true,
   config = function() end,
 }

@@ -9,13 +9,11 @@ vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
--- NOTE: You can change these options as you wish!
+--  You can change these options as you wish!
 --  For more options, you can see `:help option-list`
 
 -- Make line numbers default
 vim.opt.number = true
--- You can also add relative line numbers, to help with jumping.
---  Experiment for yourself to see if you like it!
 vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
@@ -72,12 +70,13 @@ vim.opt.inccommand = 'split'
 vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
-vim.opt.scrolloff = 10
+-- vim.opt.scrolloff = 10
+vim.opt.scrolloff = 8
 
 -- Buffer related options
 vim.opt.hidden = true
 
--- Tabs and Indentation NOTE: more or less irrelevant now that we have vim-sleuth
+-- Tabs and Indentation NOTE: somewhat irrelevant now that we have vim-sleuth
 -- vim.opt.tabstop = 4
 -- vim.opt.shiftwidth = 4
 --
@@ -87,15 +86,14 @@ vim.opt.hidden = true
 
 -- Folding
 
--- Enable fold saving across sessions
+--   Enable fold saving across sessions
 vim.opt.viewoptions:append 'folds'
-
 vim.opt.foldmethod = 'indent'
 
--- Start with all folds open by default
+--   Start with all folds open by default
 vim.opt.foldlevelstart = 99
 
--- Automatically save folds when leaving a buffer
+--   Automatically save folds when leaving a buffer
 vim.cmd [[
   augroup remember_folds
     autocmd!
@@ -661,6 +659,8 @@ require('lazy').setup({
     },
     opts = {
       notify_on_error = false,
+
+      -- NOTE: Can comment out this entire function to disable
       format_on_save = function(bufnr)
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
@@ -677,6 +677,7 @@ require('lazy').setup({
           lsp_format = lsp_format_opt,
         }
       end,
+
       formatters_by_ft = {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
@@ -799,7 +800,7 @@ require('lazy').setup({
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
           { name = 'path' },
-          { name = 'copilot' },
+          { name = 'copilot' }, -- not sure if this is correct :)
         },
       }
     end,
@@ -828,7 +829,12 @@ require('lazy').setup({
   },
 
   -- Highlight todo, notes, etc in comments
-  { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
+  {
+    'folke/todo-comments.nvim',
+    event = 'VimEnter',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    opts = { signs = false },
+  },
 
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
@@ -847,6 +853,10 @@ require('lazy').setup({
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup()
+
+      -- Disable default 's' key behavior in normal and visual modes
+      vim.keymap.set('n', 's', '<Nop>', { silent = true })
+      vim.keymap.set('v', 's', '<Nop>', { silent = true })
 
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
@@ -914,7 +924,16 @@ require('lazy').setup({
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
-  { import = 'custom.plugins' },
+  -- { import = 'custom.plugins' },
+  require 'custom.plugins.init',
+  require 'custom.plugins.colorizer',
+  -- require 'custom.plugins.copilot',
+  require 'custom.plugins.dashboard',
+  require 'custom.plugins.markdown_preview',
+  require 'custom.plugins.oil',
+  require 'custom.plugins.render_markdown',
+  require 'custom.plugins.treesj',
+  require 'custom.plugins.lazygit',
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
