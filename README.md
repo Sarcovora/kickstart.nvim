@@ -36,6 +36,7 @@ git clone https://github.com/Sarcovora/kickstart.nvim.git "${env:LOCALAPPDATA}\n
 ### Installing ripgrep and fzf without sudo (used in telescope)
 
 **Ripgrep**
+
 ```bash
 curl -LO 'https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep-13.0.0-x86_64-unknown-linux-musl.tar.gz'
 tar xf ripgrep-13.0.0-x86_64-unknown-linux-musl.tar.gz
@@ -45,6 +46,7 @@ cd ripgrep-13.0.0-x86_64-unknown-linux-musl
 ```
 
 **Fzf**
+
 ```bash
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install
@@ -53,6 +55,7 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ### Install External Dependencies
 
 <details><summary>External Requirements</summary>
+
 - Basic utils: `git`, `make`, `unzip`, C Compiler (`gcc`) [ripgrep](https://github.com/BurntSushi/ripgrep#installation)
 - Clipboard tool (xclip/xsel/win32yank or other depending on platform)
 - A [Nerd Font](https://www.nerdfonts.com/): optional, provides various icons
@@ -64,9 +67,11 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 
 > **NOTE**
 > [Backup](#FAQ) your previous configuration (if any exists)
+
   </details>
 
 <details><summary>Where's the neovim config?</summary>
+
 Neovim's configurations are located under the following paths, depending on your OS:
 
 | OS | PATH |
@@ -87,6 +92,7 @@ After installing all the dependencies continue with the [Install Kickstart](#Ins
 <details><summary>Windows Installation</summary>
 
 <details><summary>Windows with Microsoft C++ Build Tools and CMake</summary>
+
 Installation may require installing build tools and updating the run command for `telescope-fzf-native`
 
 See `telescope-fzf-native` documentation for [more details](https://github.com/nvim-telescope/telescope-fzf-native.nvim#installation)
@@ -99,7 +105,9 @@ This requires:
 {'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
 ```
 </details>
+
 <details><summary>Windows with gcc/make using chocolatey</summary>
+
 Alternatively, one can install gcc and make which don't require changing the config,
 the easiest way is to use choco:
 
