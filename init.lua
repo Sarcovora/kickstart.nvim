@@ -934,6 +934,7 @@ require('lazy').setup({
   require 'custom.plugins.render_markdown',
   require 'custom.plugins.treesj',
   require 'custom.plugins.lazygit',
+  require 'custom.plugins.yazi',
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
