@@ -73,6 +73,9 @@ vim.opt.cursorline = true
 -- vim.opt.scrolloff = 10
 vim.opt.scrolloff = 5
 
+-- laststatus
+vim.opt.laststatus = 3
+
 -- Buffer related options
 vim.opt.hidden = true
 
