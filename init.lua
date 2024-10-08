@@ -375,6 +375,7 @@ require('lazy').setup({
       -- Enable Telescope extensions if they are installed
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'ui-select')
+      pcall(require('telescope').load_extension, 'harpoon')
 
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
@@ -925,6 +926,7 @@ require('lazy').setup({
   require 'plugins.lazygit',
   require 'plugins.yazi',
   require 'plugins.neoscroll',
+  require 'plugins.harpoon',
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
