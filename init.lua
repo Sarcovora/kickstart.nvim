@@ -157,15 +157,28 @@ vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower win
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- Toggle LSP diagnostics on and off
-vim.keymap.set('n', '<leader>ld', function()
-  vim.diagnostic.disable()
-  print 'Linter diagnostics disabled'
-end, { desc = 'Disable Linter Diagnostics' })
+-- vim.keymap.set('n', '<leader>ld', function()
+--   vim.diagnostic.disable()
+--   print 'Linter diagnostics disabled'
+-- end, { desc = 'Disable Linter Diagnostics' })
+--
+-- vim.keymap.set('n', '<leader>le', function()
+--   vim.diagnostic.enable()
+--   print 'Linter diagnostics enabled'
+-- end, { desc = 'Enable Linter Diagnostics' })
 
-vim.keymap.set('n', '<leader>le', function()
-  vim.diagnostic.enable()
-  print 'Linter diagnostics enabled'
-end, { desc = 'Enable Linter Diagnostics' })
+local diagnostics_enabled = true
+
+vim.keymap.set('n', '<leader>ld', function()
+  if diagnostics_enabled then
+    vim.diagnostic.enable(false)
+    vim.notify('LSP Diagnostics Disabled', vim.log.levels.INFO)
+  else
+    vim.diagnostic.enable()
+    vim.notify('LSP Diagnostics Enabled', vim.log.levels.INFO)
+  end
+  diagnostics_enabled = not diagnostics_enabled
+end, { desc = 'Toggle [L]inter [D]iagnostics' })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -536,7 +549,15 @@ require('lazy').setup({
           -- This may be unwanted, since they displace some of your code
           if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
             map('<leader>lh', function()
+              local is_enabled = vim.lsp.inlay_hint.is_enabled { bufnr = event.buf }
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
+
+              -- Notify user that the toggle action was completed
+              if is_enabled then
+                vim.notify('LSP Inlay Hints Disabled', vim.log.levels.INFO)
+              else
+                vim.notify('LSP Inlay Hints Enabled', vim.log.levels.INFO)
+              end
             end, 'Toggle LSP Inlay [H]ints')
           end
         end,
