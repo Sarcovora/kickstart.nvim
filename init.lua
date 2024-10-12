@@ -97,13 +97,13 @@ vim.opt.foldmethod = 'indent'
 vim.opt.foldlevelstart = 99
 
 --   Automatically save folds when leaving a buffer
-vim.cmd [[
-  augroup remember_folds
-    autocmd!
-    autocmd BufWinLeave * silent! mkview
-    autocmd BufWinEnter * silent! loadview
-  augroup END
-]]
+-- vim.cmd [[
+--   augroup remember_folds
+--     autocmd!
+--     autocmd BufWinLeave * silent! mkview
+--     autocmd BufWinEnter * silent! loadview
+--   augroup END
+-- ]]
 
 -- Wrapping
 vim.opt.wrap = false
@@ -883,7 +883,23 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      ensure_installed = {
+        'bash',
+        'c',
+        'diff',
+        'html',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'query',
+        'vim',
+        'vimdoc',
+        'python',
+        'javascript',
+        'typescript',
+        'css',
+      },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
@@ -913,11 +929,11 @@ require('lazy').setup({
 
   -- MY PLUGINS
   require 'plugins.colorizer',
-  -- require 'custom.plugins.copilot',
+  require 'plugins.copilot',
   -- require 'plugins.dashboard',
   require 'plugins.markdown_preview',
   require 'plugins.oil',
-  require 'plugins.render_markdown',
+  -- require 'plugins.render_markdown',
   require 'plugins.treesj',
   require 'plugins.lazygit',
   require 'plugins.yazi',
