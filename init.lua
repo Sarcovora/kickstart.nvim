@@ -939,6 +939,8 @@ require('lazy').setup({
   require 'plugins.yazi',
   require 'plugins.neoscroll',
   require 'plugins.harpoon',
+
+  require 'plugins.outline',
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the

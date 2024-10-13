@@ -18,8 +18,8 @@ return {
       local harpoon_files = harpoon:list()
       local conf = require('telescope.config').values
 
-      for _, item in ipairs(harpoon_files.items) do
-        table.insert(file_paths, item.value)
+      for idx, item in ipairs(harpoon_files.items) do
+        table.insert(file_paths, idx .. ': ' .. item.value)
       end
 
       require('telescope.pickers')
@@ -33,6 +33,37 @@ return {
         })
         :find()
     end, { desc = 'Harpoon: List files with Telescope' })
+
+    vim.keymap.set('n', '<leader>h1', function()
+      harpoon:list():select(1)
+    end, { desc = 'Harpoon: select buffer (1)' })
+    vim.keymap.set('n', '<leader>h2', function()
+      harpoon:list():select(2)
+    end, { desc = 'Harpoon: select buffer (2)' })
+    vim.keymap.set('n', '<leader>h3', function()
+      harpoon:list():select(3)
+    end, { desc = 'Harpoon: select buffer (3)' })
+    vim.keymap.set('n', '<leader>h4', function()
+      harpoon:list():select(4)
+    end, { desc = 'Harpoon: select buffer (4)' })
+    vim.keymap.set('n', '<leader>h5', function()
+      harpoon:list():select(5)
+    end, { desc = 'Harpoon: select buffer (5)' })
+    vim.keymap.set('n', '<leader>h6', function()
+      harpoon:list():select(6)
+    end, { desc = 'Harpoon: select buffer (6)' })
+    vim.keymap.set('n', '<leader>h7', function()
+      harpoon:list():select(7)
+    end, { desc = 'Harpoon: select buffer (7)' })
+    vim.keymap.set('n', '<leader>h8', function()
+      harpoon:list():select(8)
+    end, { desc = 'Harpoon: select buffer (8)' })
+    vim.keymap.set('n', '<leader>h9', function()
+      harpoon:list():select(9)
+    end, { desc = 'Harpoon: select buffer (9)' })
+    vim.keymap.set('n', '<leader>h0', function()
+      harpoon:list():select(10)
+    end, { desc = 'Harpoon: select buffer (10)' })
 
     vim.keymap.set('n', '<leader>h,', function()
       harpoon:list():prev()
