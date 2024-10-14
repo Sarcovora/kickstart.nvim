@@ -927,7 +927,7 @@ require('lazy').setup({
   require 'plugins.neo-tree',
   -- require 'plugins.gitsigns', -- adds gitsigns recommend keymaps
 
-  -- MY PLUGINS
+  -- MY CUSTOM PLUGINS LIST
   require 'plugins.colorizer',
   require 'plugins.copilot',
   -- require 'plugins.dashboard',
