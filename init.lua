@@ -116,6 +116,10 @@ vim.api.nvim_create_autocmd('FileType', {
   pattern = 'c',
   command = 'setlocal commentstring=//\\ %s',
 })
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'cpp',
+  command = 'setlocal commentstring=//\\ %s',
+})
 
 -- Disable auto-comment insertion when pressing Enter after a comment
 vim.api.nvim_create_autocmd('BufEnter', {
