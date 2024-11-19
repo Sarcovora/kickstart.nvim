@@ -70,8 +70,8 @@ vim.opt.inccommand = 'split'
 vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
--- vim.opt.scrolloff = 10
 vim.opt.scrolloff = 5
+vim.opt.sidescrolloff = 5
 
 -- laststatus
 vim.opt.laststatus = 3
@@ -88,6 +88,9 @@ vim.opt.hidden = true
 -- vim.opt.smartindent = true
 
 -- Folding
+
+-- Lazyredraw: Avoid unnecessary screen redraws during macro execution or long commands
+vim.opt.lazyredraw = true
 
 --   Enable fold saving across sessions
 vim.opt.viewoptions:append 'folds'
@@ -107,6 +110,12 @@ vim.opt.foldlevelstart = 99
 
 -- Wrapping
 vim.opt.wrap = false
+
+-- Linebreak: Break lines at word boundaries instead of the middle of words
+vim.opt.linebreak = true
+
+-- Showbreak: Display a character at the start of wrapped lines
+vim.opt.showbreak = '↪'
 
 -- Comments: Disable automatic comment continuation and wrapping
 vim.opt.formatoptions:remove { 'c', 'r', 'o' }
