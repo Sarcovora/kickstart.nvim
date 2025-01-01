@@ -955,6 +955,8 @@ require('lazy').setup({
 
   require 'plugins.outline',
   require 'plugins.autosession',
+
+  require 'plugins.treesitter_context',
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
