@@ -243,25 +243,6 @@ require('lazy').setup({
   --
   -- Use `opts = {}` to force a plugin to be loaded.
   --
-
-  -- Here is a more advanced example where we pass configuration
-  -- options to `gitsigns.nvim`. This is equivalent to the following Lua:
-  --    require('gitsigns').setup({ ... })
-  --
-  -- See `:help gitsigns` to understand what the configuration keys do
-  { -- Adds git related signs to the gutter, as well as utilities for managing changes
-    'lewis6991/gitsigns.nvim',
-    opts = {
-      signs = {
-        add = { text = '+' },
-        change = { text = '~' },
-        delete = { text = '_' },
-        topdelete = { text = '‾' },
-        changedelete = { text = '~' },
-      },
-    },
-  },
-
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --
   -- This is often very useful to both group configuration, as well as handle
@@ -958,7 +939,7 @@ require('lazy').setup({
   -- require 'plugins.lint',
   require 'plugins.autopairs',
   require 'plugins.neo-tree',
-  -- require 'plugins.gitsigns', -- adds gitsigns recommend keymaps
+  require 'plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- MY CUSTOM PLUGINS LIST
   require 'plugins.colorizer',
@@ -1001,6 +982,14 @@ require('lazy').setup({
     },
   },
 })
+
+-- Use true colors
+vim.opt.termguicolors = true
+
+-- Set transparent vim background, but after the colorscheme has been set
+-- vim.cmd [[highlight Normal guibg=none]]
+-- vim.cmd [[highlight NonText guibg=none]]
+-- vim.cmd [[highlight NormalFloat guibg=none]]
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
