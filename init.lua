@@ -608,6 +608,9 @@ require('lazy').setup({
               plugins = {
                 rope_rename = { enabled = true },
                 -- You can enable or disable other pylsp plugins here
+                pycodestyle = {
+                  ignore = { 'E501' }, -- Disable "line too long" warnings
+                },
               },
             },
           },
