@@ -177,3 +177,46 @@ sudo pacman -S --noconfirm --needed gcc make git ripgrep fd unzip neovim
 ```
 </details>
 </details>
+
+---
+## Folder Structure
+```
+~/.config/nvim
+├── LICENSE.md
+├── README.md
+├── init.lua
+├── lazy-lock.json
+└── lua
+    ├── health.lua
+    └── plugins
+        ├── autopairs.lua
+        ├── autosession.lua
+        ├── colorizer.lua
+        ├── copilot.lua
+        ├── dashboard.lua
+        ├── debug.lua
+        ├── eyeliner.lua
+        ├── gitsigns.lua
+        ├── harpoon.lua
+        ├── indent_line.lua
+        ├── lazygit.lua
+        ├── lint.lua
+        ├── markdown_preview.lua
+        ├── neo-tree.lua
+        ├── neoscroll.lua
+        ├── oil.lua
+        ├── outline.lua
+        ├── plugin-data
+        │   ├── github_md.css
+        │   ├── md.css
+        │   ├── mdhl.css
+        │   ├── screen_md.css
+        │   └── splendor_md.css
+        ├── render_markdown.lua
+        ├── treesitter_context.lua
+        ├── treesj.lua
+        ├── vimtex.lua
+        └── yazi.lua
+
+4 directories, 32 files
+```

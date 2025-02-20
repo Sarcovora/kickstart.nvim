@@ -16,8 +16,8 @@ return {
   config = function()
     vim.keymap.set('n', '<leader>p', ':MarkdownPreviewToggle<CR>', { desc = 'Markdown Preview Toggle' })
 
-    -- vim.g.mkdp_markdown_css = '/Users/ekuo/.config/nvim/plugin-data/md.css'
-    vim.g.mkdp_markdown_css = '/Users/ekuo/.config/nvim/plugin-data/github_md.css'
-    vim.g.mkdp_highlight_css = '/Users/ekuo/.config/nvim/plugin-data/mdhl.css'
+    -- vim.g.mkdp_markdown_css = '/Users/ekuo/.config/nvim/lua/plugins/plugin-data/md.css'
+    vim.g.mkdp_markdown_css = '/Users/ekuo/.config/nvim/lua/plugins/plugin-data/github_md.css'
+    vim.g.mkdp_highlight_css = '/Users/ekuo/.config/nvim/lua/plugins/plugin-data/mdhl.css'
   end,
 }
