@@ -964,7 +964,7 @@ require('lazy').setup({
   require 'plugins.outline',
   require 'plugins.autosession',
 
-  require 'plugins.treesitter_context',
+  -- require 'plugins.treesitter_context',
 
   require 'plugins.vimtex',
   require 'plugins.eyeliner',
