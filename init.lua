@@ -612,6 +612,7 @@ require('lazy').setup({
                   ignore = {
                     'E501', -- Line too long
                     'E266', -- Too many leading '#' for block comment
+                    'E203', -- Whitespace before ':'
                   },
                 },
               },
