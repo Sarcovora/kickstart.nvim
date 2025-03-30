@@ -5,6 +5,9 @@ return {
   'github/copilot.vim',
   config = function()
     -- Function to toggle Copilot and show status
+    vim.g.copilot_enabled = 1
+    vim.cmd 'Copilot enable'
+
     local function toggle_copilot()
       -- Check if Copilot is enabled by checking the value of g:copilot_enabled
       if vim.g.copilot_enabled == 1 then
