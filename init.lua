@@ -663,7 +663,7 @@ require('lazy').setup({
           require('conform').format { async = true, lsp_format = 'fallback' }
         end,
         mode = '',
-        desc = '[F]ormat buffer',
+        desc = '[F]ormat buffer (conform)',
       },
     },
     opts = {
@@ -874,6 +874,7 @@ require('lazy').setup({
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup()
+      -- NOTE: can instead use ), }, or ] to replace without space
 
       -- Disable default 's' key behavior in normal and visual modes
       vim.keymap.set('n', 's', '<Nop>', { silent = true })
