@@ -613,6 +613,7 @@ require('lazy').setup({
                     'E501', -- Line too long
                     'E266', -- Too many leading '#' for block comment
                     'E203', -- Whitespace before ':'
+                    'W503', -- Line break before binary operator (PEP 8)
                   },
                 },
               },
