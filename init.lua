@@ -94,7 +94,7 @@ vim.opt.lazyredraw = true
 
 --   Enable fold saving across sessions
 vim.opt.viewoptions:append 'folds'
-vim.opt.foldmethod = 'indent'
+vim.opt.foldmethod = 'manual'
 
 --   Start with all folds open by default
 vim.opt.foldlevelstart = 99
@@ -970,6 +970,8 @@ require('lazy').setup({
 
   require 'plugins.vimtex',
   require 'plugins.eyeliner',
+
+  require 'plugins.undotree',
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
