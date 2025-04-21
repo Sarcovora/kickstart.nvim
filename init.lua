@@ -614,6 +614,9 @@ require('lazy').setup({
                     'E266', -- Too many leading '#' for block comment
                     'E203', -- Whitespace before ':'
                     'W503', -- Line break before binary operator (PEP 8)
+                    'E221', -- Multiple spaces before operator
+                    'E241', -- Multiple spaces after ‘,’
+                    'E226', -- Missing whitespace around arithmetic operator
                   },
                 },
               },
