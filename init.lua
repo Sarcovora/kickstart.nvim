@@ -656,6 +656,10 @@ require('lazy').setup({
     end,
   },
 
+  {
+    'Decodetalkers/csharpls-extended-lsp.nvim',
+  },
+
   { -- Autoformat
     'stevearc/conform.nvim',
     event = { 'BufWritePre' },
@@ -946,7 +950,7 @@ require('lazy').setup({
   },
 
   -- PROVIDED PLUGINS (kickstart.nvim)
-  -- require 'plugins.debug',
+  require 'plugins.debug',
   require 'plugins.indent_line', -- adds vertical lines to show indent levels
   -- require 'plugins.lint',
   require 'plugins.autopairs',
@@ -955,7 +959,7 @@ require('lazy').setup({
 
   -- MY CUSTOM PLUGINS LIST
   require 'plugins.colorizer',
-  require 'plugins.copilot',
+  -- require 'plugins.copilot',
   -- require 'plugins.dashboard',
   require 'plugins.markdown_preview',
   require 'plugins.oil',
