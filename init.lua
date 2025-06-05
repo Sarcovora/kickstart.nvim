@@ -73,7 +73,6 @@ vim.opt.cursorline = true
 vim.opt.scrolloff = 5
 vim.opt.sidescrolloff = 5
 
--- laststatus
 vim.opt.laststatus = 3
 
 -- Buffer related options
@@ -938,8 +937,59 @@ require('lazy').setup({
         bg = '#c4a7e7',
       })
 
+      -- ---@diagnostic disable-next-line: duplicate-set-field
+      -- statusline.section_filename = function()
+      --   local filename = vim.fn.expand '%:t'
+      --   local filepath = vim.fn.expand '%:h'
+      --
+      --   if filename == '' then
+      --     filename = '[No Name]'
+      --   end
+      --
+      --   -- Create the filename box with padding
+      --   local filename_box = '%#StatusLineFilenameBox# ' .. filename .. ' %*'
+      --
+      --   if filepath == '.' or filepath == '' then
+      --     return filename_box
+      --   else
+      --     -- Filename box + path in normal statusline color
+      --     return filename_box .. ' (' .. filepath .. ')'
+      --   end
+      -- end
+
       ---@diagnostic disable-next-line: duplicate-set-field
       statusline.section_filename = function()
+        -- Check if this is a real file buffer
+        local buftype = vim.bo.buftype
+        local filetype = vim.bo.filetype
+
+        -- Skip special buffers (quickfix, help, terminal, etc.)
+        if buftype ~= '' then
+          return ''
+        end
+
+        -- Skip specific filetypes you don't want (outline, file explorers, etc.)
+        local skip_filetypes = {
+          'qf', -- quickfix
+          'help', -- help files
+          'Outline', -- outline buffer
+          'neo-tree', -- neo-tree file explorer
+          'NvimTree', -- nvim-tree
+          'Trouble', -- trouble.nvim
+          'lspinfo', -- LSP info
+          'TelescopePrompt', -- Telescope
+          'alpha', -- alpha dashboard
+          'dashboard', -- dashboard
+          'lazy', -- lazy.nvim
+          'mason', -- mason.nvim
+        }
+
+        for _, ft in ipairs(skip_filetypes) do
+          if filetype == ft then
+            return ''
+          end
+        end
+
         local filename = vim.fn.expand '%:t'
         local filepath = vim.fn.expand '%:h'
 
