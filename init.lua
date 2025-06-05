@@ -371,11 +371,46 @@ require('lazy').setup({
         --
         defaults = {
           path_display = { 'truncate' },
+
+          -- Alternative options:
+          -- path_display = { "smart" },          -- Smart truncation
+          -- path_display = { "truncate" },       -- Truncate from the left
+          -- path_display = { "tail" },           -- Show only filename
+          -- path_display = { "filename_first" }, -- Show filename (path/to/file)
+          -- path_display = function(opts, path)
+          --   local tail = require("telescope.utils").path_tail(path)
+          --   return string.format("%s (%s)", tail, path)
+          -- end,
           -- mappings = {
           --   i = { ['<c-enter>'] = 'to_fuzzy_refine' },
           -- },
         },
         -- pickers = {}
+        -- pickers = {
+        --   -- Specific configurations for LSP pickers
+        --   lsp_references = {
+        --     path_display = { 'truncate' },
+        --     show_line = false, -- Don't show line numbers in the path
+        --   },
+        --   lsp_definitions = {
+        --     path_display = { 'truncate' },
+        --     show_line = false,
+        --   },
+        --   lsp_implementations = {
+        --     path_display = { 'truncate' },
+        --     show_line = false,
+        --   },
+        --   lsp_type_definitions = {
+        --     path_display = { 'truncate' },
+        --     show_line = false,
+        --   },
+        --   lsp_document_symbols = {
+        --     path_display = { 'truncate' },
+        --   },
+        --   lsp_dynamic_workspace_symbols = {
+        --     path_display = { 'truncate' },
+        --   },
+        -- },
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
@@ -895,6 +930,33 @@ require('lazy').setup({
       local statusline = require 'mini.statusline'
       -- set use_icons to true if you have a Nerd Font
       statusline.setup { use_icons = vim.g.have_nerd_font }
+
+      vim.api.nvim_set_hl(0, 'StatusLineFilenameBox', {
+        bold = true,
+        italic = true,
+        fg = '#191724',
+        bg = '#c4a7e7',
+      })
+
+      ---@diagnostic disable-next-line: duplicate-set-field
+      statusline.section_filename = function()
+        local filename = vim.fn.expand '%:t'
+        local filepath = vim.fn.expand '%:h'
+
+        if filename == '' then
+          filename = '[No Name]'
+        end
+
+        -- Create the filename box with padding
+        local filename_box = '%#StatusLineFilenameBox# ' .. filename .. ' %*'
+
+        if filepath == '.' or filepath == '' then
+          return filename_box
+        else
+          -- Filename box + path in normal statusline color
+          return filename_box .. ' (' .. filepath .. ')'
+        end
+      end
 
       -- You can configure sections in the statusline by overriding their
       -- default behavior. For example, here we set the section for
