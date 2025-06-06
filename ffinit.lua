@@ -73,7 +73,6 @@ vim.opt.cursorline = true
 vim.opt.scrolloff = 5
 vim.opt.sidescrolloff = 5
 
--- laststatus
 vim.opt.laststatus = 3
 
 -- Buffer related options
@@ -369,12 +368,48 @@ require('lazy').setup({
         -- You can put your default mappings / updates / etc. in here
         --  All the info you're looking for is in `:help telescope.setup()`
         --
-        -- defaults = {
-        --   mappings = {
-        --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
+        defaults = {
+          path_display = { 'truncate' },
+
+          -- Alternative options:
+          -- path_display = { "smart" },          -- Smart truncation
+          -- path_display = { "truncate" },       -- Truncate from the left
+          -- path_display = { "tail" },           -- Show only filename
+          -- path_display = { "filename_first" }, -- Show filename (path/to/file)
+          -- path_display = function(opts, path)
+          --   local tail = require("telescope.utils").path_tail(path)
+          --   return string.format("%s (%s)", tail, path)
+          -- end,
+          -- mappings = {
+          --   i = { ['<c-enter>'] = 'to_fuzzy_refine' },
+          -- },
+        },
+        -- pickers = {}
+        -- pickers = {
+        --   -- Specific configurations for LSP pickers
+        --   lsp_references = {
+        --     path_display = { 'truncate' },
+        --     show_line = false, -- Don't show line numbers in the path
+        --   },
+        --   lsp_definitions = {
+        --     path_display = { 'truncate' },
+        --     show_line = false,
+        --   },
+        --   lsp_implementations = {
+        --     path_display = { 'truncate' },
+        --     show_line = false,
+        --   },
+        --   lsp_type_definitions = {
+        --     path_display = { 'truncate' },
+        --     show_line = false,
+        --   },
+        --   lsp_document_symbols = {
+        --     path_display = { 'truncate' },
+        --   },
+        --   lsp_dynamic_workspace_symbols = {
+        --     path_display = { 'truncate' },
         --   },
         -- },
-        -- pickers = {}
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
@@ -656,6 +691,10 @@ require('lazy').setup({
     end,
   },
 
+  {
+    'Decodetalkers/csharpls-extended-lsp.nvim',
+  },
+
   { -- Autoformat
     'stevearc/conform.nvim',
     event = { 'BufWritePre' },
@@ -674,22 +713,22 @@ require('lazy').setup({
       notify_on_error = false,
 
       -- NOTE: Can comment out this entire function to disable
-      format_on_save = function(bufnr)
-        -- Disable "format_on_save lsp_fallback" for languages that don't
-        -- have a well standardized coding style. You can add additional
-        -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true, python = true }
-        local lsp_format_opt
-        if disable_filetypes[vim.bo[bufnr].filetype] then
-          lsp_format_opt = 'never'
-        else
-          lsp_format_opt = 'fallback'
-        end
-        return {
-          timeout_ms = 500,
-          lsp_format = lsp_format_opt,
-        }
-      end,
+      -- format_on_save = function(bufnr)
+      --   -- Disable "format_on_save lsp_fallback" for languages that don't
+      --   -- have a well standardized coding style. You can add additional
+      --   -- languages here or re-enable it for the disabled ones.
+      --   local disable_filetypes = { c = true, cpp = true, python = true, html = true, ts = true, cs = true }
+      --   local lsp_format_opt
+      --   if disable_filetypes[vim.bo[bufnr].filetype] then
+      --     lsp_format_opt = 'never'
+      --   else
+      --     lsp_format_opt = 'fallback'
+      --   end
+      --   return {
+      --     timeout_ms = 500,
+      --     lsp_format = lsp_format_opt,
+      --   }
+      -- end,
 
       formatters_by_ft = {
         lua = { 'stylua' },
@@ -1001,24 +1040,22 @@ require('lazy').setup({
   },
 
   -- PROVIDED PLUGINS (kickstart.nvim)
-  -- require 'plugins.debug',
+  require 'plugins.snacks',
+  require 'plugins.debug',
   require 'plugins.indent_line', -- adds vertical lines to show indent levels
-  -- require 'plugins.lint',
+  require 'plugins.lint',
   require 'plugins.autopairs',
   require 'plugins.neo-tree',
   require 'plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- MY CUSTOM PLUGINS LIST
   require 'plugins.colorizer',
-  require 'plugins.copilot',
-  -- require 'plugins.dashboard',
+  -- require 'plugins.copilot',
   require 'plugins.markdown_preview',
   require 'plugins.oil',
-  -- require 'plugins.render_markdown',
   require 'plugins.treesj',
   require 'plugins.lazygit',
   require 'plugins.yazi',
-  -- require 'plugins.neoscroll',
   require 'plugins.harpoon',
 
   require 'plugins.outline',
@@ -1030,6 +1067,8 @@ require('lazy').setup({
   require 'plugins.eyeliner',
 
   require 'plugins.undotree',
+
+  require 'plugins.claude-code',
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
