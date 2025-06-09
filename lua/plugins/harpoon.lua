@@ -10,8 +10,10 @@ return {
     harpoon:setup {}
 
     vim.keymap.set('n', '<leader>hl', function()
-      harpoon.ui:toggle_quick_menu(harpoon:list(), {
-        height_in_lines = 20,
+      local list = harpoon:list()
+      local height = math.max(8, list:length())
+      harpoon.ui:toggle_quick_menu(list, {
+        height_in_lines = height,
         border = "rounded",
       })
     end, { desc = '[H]arpoon: List files with Telescope' })
