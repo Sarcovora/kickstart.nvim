@@ -44,7 +44,6 @@ return { -- Collection of various small independent plugins/modules
           return statusline.combine_groups({
             { hl = mode_hl,                  strings = { mode } },
             { hl = 'MiniStatuslineDevinfo',  strings = { git, diff, diagnostics, lsp } },
-            '%<', -- Mark general truncate point
             { hl = 'MiniStatuslineFilename', strings = { filename } },
             '%=', -- End left alignment
             { hl = 'MiniStatuslineFileinfo', strings = { fileinfo } },
@@ -140,21 +139,49 @@ return { -- Collection of various small independent plugins/modules
         return '%#StatusLineFilenameBox# ' .. filename .. ' %*'
       end
 
-      -- Calculate space for path display
-      local filename_len = string.len(filename) + 2 -- +2 for padding
+      -- Calculate total space needed and prioritize filename over filepath
       local reserved_space = 60 -- space for other statusline elements
-      local available_space = statusline_width - filename_len - reserved_space - 4 -- -4 for " (" and ")"
-
+      local available_space = statusline_width - reserved_space
+      
       local display_path = filepath
+      local display_filename = filename
+      
       if filepath ~= '.' and filepath ~= '' then
-        if string.len(filepath) > available_space and available_space > 10 then
-          -- Truncate from left, show ellipsis
-          local truncated_len = available_space - 1 -- -1 for ellipsis
-          display_path = '…' .. string.sub(filepath, -truncated_len)
+        local full_display = filename .. ' ./' .. filepath
+        local full_len = string.len(full_display) + 2 -- +2 for padding
+        
+        if full_len > available_space then
+          -- Calculate space more precisely
+          local filename_box_len = string.len(filename) + 4 -- +4 for box padding
+          local path_prefix_len = 4 -- for ' ./'
+          
+          -- Try to fit some path, but prioritize filename
+          local min_path_len = 8 -- minimum useful path length including ellipsis
+          local total_min = filename_box_len + path_prefix_len + min_path_len
+          
+          if available_space >= total_min then
+            -- Calculate available space for path
+            local available_for_path = available_space - filename_box_len - path_prefix_len
+            
+            if available_for_path >= min_path_len and string.len(filepath) > available_for_path then
+              -- Truncate filepath from left with ellipsis
+              local truncated_len = available_for_path - 1 -- -1 for ellipsis
+              display_path = '…' .. string.sub(filepath, -(truncated_len - 1))
+            end
+          else
+            -- Not enough space for path, drop it
+            display_path = nil
+          end
         end
-        return '%#StatusLineFilenameBox# ' .. filename .. ' %* (' .. display_path .. ')'
+        
+        if display_path then
+          return './' .. display_path .. ' %#StatusLineFilenameBox# ' .. display_filename .. ' %*'
+          -- return '%#StatusLineFilenameBox# ' .. display_filename .. ' %* ./' .. display_path
+        else
+          return '%#StatusLineFilenameBox# ' .. display_filename .. ' %*'
+        end
       else
-        return '%#StatusLineFilenameBox# ' .. filename .. ' %*'
+        return '%#StatusLineFilenameBox# ' .. display_filename .. ' %*'
       end
     end
 
@@ -174,7 +201,7 @@ return { -- Collection of various small independent plugins/modules
       return MiniStatusline.combine_groups({
         { hl = mode_hl,                  strings = { mode } },
         { hl = 'MiniStatuslineDevinfo',  strings = { git, diff, diagnostics, lsp } },
-        '%<', -- Mark general truncate point
+        '%<', -- Mark truncate point AFTER critical info
         { hl = 'MiniStatuslineFilename', strings = { filename } },
         '%=', -- End left alignment
         { hl = 'MiniStatuslineFileinfo', strings = { fileinfo } },
