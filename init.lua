@@ -1010,8 +1010,18 @@ require('lazy').setup({
         end
 
         local filename = vim.fn.expand '%:t'
-        local filepath = vim.fn.expand '%:h'
+        -- local filepath = vim.fn.expand '%:h'
         local full_path = vim.fn.expand '%:p'
+
+        local cwd = vim.fn.getcwd()
+        local filepath = vim.fn.fnamemodify(full_path, ':h')
+
+        if filepath:sub(1, #cwd) == cwd then
+          filepath = filepath:sub(#cwd + 2) -- +2 to skip the trailing slash
+          if filepath == '' then
+            filepath = '.'
+          end
+        end
 
         if filename == '' then
           filename = '[No Name]'
@@ -1026,7 +1036,7 @@ require('lazy').setup({
           -- Per-window statusline: use current window width
           statusline_width = vim.api.nvim_win_get_width(0)
         end
-        
+
         -- If statusline is too narrow, just show filename
         if statusline_width < trunc_width then
           return '%#StatusLineFilenameBox# ' .. filename .. ' %*'
