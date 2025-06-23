@@ -209,7 +209,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
-if not (vim.uv or vim.loop).fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
   local out = vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
   if vim.v.shell_error ~= 0 then
@@ -549,7 +549,7 @@ require('lazy').setup({
           --
           -- When you move your cursor, the highlights will be cleared (the second autocommand).
           local client = vim.lsp.get_client_by_id(event.data.client_id)
-          if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+          if client and client.supports_method('textDocument/documentHighlight') then
             local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
             vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
               buffer = event.buf,
@@ -576,7 +576,7 @@ require('lazy').setup({
           -- code, if the language server you are using supports them
           --
           -- This may be unwanted, since they displace some of your code
-          if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+          if client and client.supports_method('textDocument/inlayHint') then
             map('<leader>lh', function()
               local is_enabled = vim.lsp.inlay_hint.is_enabled { bufnr = event.buf }
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
@@ -928,7 +928,7 @@ require('lazy').setup({
       --  and try some other statusline plugin
       local statusline = require 'mini.statusline'
       -- set use_icons to true if you have a Nerd Font
-      statusline.setup { 
+      statusline.setup {
         use_icons = vim.g.have_nerd_font,
         -- Force our custom content function
         content = {
@@ -942,7 +942,7 @@ require('lazy').setup({
             local fileinfo      = statusline.section_fileinfo({ trunc_width = 120 })
             local location      = statusline.section_location({ trunc_width = 75 })
             local search        = statusline.section_searchcount({ trunc_width = 75 })
-            
+
             return statusline.combine_groups({
               { hl = mode_hl,                  strings = { mode } },
               { hl = 'MiniStatuslineDevinfo',  strings = { git, diff, diagnostics, lsp } },
@@ -987,7 +987,7 @@ require('lazy').setup({
       ---@diagnostic disable-next-line: duplicate-set-field
       statusline.section_filename = function(args)
         local trunc_width = args and args.trunc_width or 140
-        
+
         -- Check if this is a real file buffer
         local buftype = vim.bo.buftype
         local filetype = vim.bo.filetype
@@ -1046,7 +1046,7 @@ require('lazy').setup({
         local filename_len = string.len(filename) + 2 -- +2 for padding
         local reserved_space = 60 -- space for other statusline elements
         local available_space = statusline_width - filename_len - reserved_space - 4 -- -4 for " (" and ")"
-        
+
         local display_path = filepath
         if filepath ~= '.' and filepath ~= '' then
           if string.len(filepath) > available_space and available_space > 10 then
@@ -1072,7 +1072,7 @@ require('lazy').setup({
         local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 120 })
         local location      = MiniStatusline.section_location({ trunc_width = 75 })
         local search        = MiniStatusline.section_searchcount({ trunc_width = 75 })
-        
+
         return MiniStatusline.combine_groups({
           { hl = mode_hl,                  strings = { mode } },
           { hl = 'MiniStatuslineDevinfo',  strings = { git, diff, diagnostics, lsp } },
