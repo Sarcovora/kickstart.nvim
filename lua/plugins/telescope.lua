@@ -49,6 +49,8 @@ return { -- Fuzzy Finder (files, lsp, etc)
       --  All the info you're looking for is in `:help telescope.setup()`
       --
       defaults = {
+        layout_strategy = "vertical",
+
         path_display = { 'truncate' },
 
         -- Alternative options:
