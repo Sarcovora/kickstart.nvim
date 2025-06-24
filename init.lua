@@ -258,6 +258,7 @@ require('lazy').setup({
   require 'plugins.undotree',
 
   -- OPTIONAL
+  require 'plugins.buffer-manager',
   require 'plugins.leap',
   require 'plugins.highlight-undo', -- highlight undo history
   require 'plugins.dropbar', -- breadcrumbs
