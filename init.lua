@@ -245,6 +245,7 @@ require('lazy').setup({
   },
   { 'Bilal2453/luvit-meta', lazy = true },
   require 'plugins.lspconfig', -- 'neovim/nvim-lspconfig',
+  -- 'Decodetalkers/csharpls-extended-lsp.nvim',
 
   -- CORE PLUGINS
   require 'plugins.autoformat', -- conform.nvim; also contains autoformatting block
@@ -260,6 +261,7 @@ require('lazy').setup({
   require 'plugins.neo-tree', -- file explorer
   require 'plugins.gitsigns', -- adds gitsigns recommend keymaps
 
+  require 'plugins.snacks',
   require 'plugins.colorizer',
   require 'plugins.markdown_preview',
   require 'plugins.oil',
