@@ -258,11 +258,12 @@ require('lazy').setup({
   require 'plugins.undotree',
 
   -- OPTIONAL
+  require 'plugins.leap',
   require 'plugins.highlight-undo', -- highlight undo history
   require 'plugins.dropbar', -- breadcrumbs
   require 'plugins.debug',
   require 'plugins.lint',
-  require 'plugins.copilot',
+  -- require 'plugins.copilot',
   -- require 'plugins.claude-code',
   -- require 'plugins.render_markdown', -- renders markdown files in a floating window
   -- require 'plugins.treesitter_context', -- shows the current context of your code (function, class, etc.) in top bar... can be annoying
