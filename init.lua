@@ -9,7 +9,6 @@ vim.g.have_nerd_font = true
 --  For more options, you can see `:help option-list`
 vim.o.number = true
 vim.o.relativenumber = true
-
 vim.o.mouse = 'a'
 
 vim.o.showmode = false
@@ -259,6 +258,8 @@ require('lazy').setup({
   require 'plugins.undotree',
 
   -- OPTIONAL
+  require 'plugins.highlight-undo', -- highlight undo history
+  require 'plugins.dropbar', -- breadcrumbs
   require 'plugins.debug',
   require 'plugins.lint',
   require 'plugins.copilot',
