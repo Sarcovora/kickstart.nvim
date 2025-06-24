@@ -14,6 +14,7 @@ return {
       local height = math.max(8, list:length())
       harpoon.ui:toggle_quick_menu(list, {
         height_in_lines = height,
+        ui_width_ratio = 0.9,
         border = 'rounded',
       })
     end, { desc = '[H]arpoon: List files with Telescope' })
