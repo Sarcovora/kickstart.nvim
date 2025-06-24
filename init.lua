@@ -1038,7 +1038,7 @@ require('lazy').setup({
 
   -- PROVIDED PLUGINS (kickstart.nvim)
   -- require 'plugins.debug',
-  require 'plugins.indent_line', -- adds vertical lines to show indent levels
+  require 'plugins.indent_ljne', -- adds vertical lines to show indent levels
   -- require 'plugins.lint',
   require 'plugins.autopairs',
   require 'plugins.neo-tree',
@@ -1047,14 +1047,12 @@ require('lazy').setup({
   -- MY CUSTOM PLUGINS LIST
   require 'plugins.colorizer',
   require 'plugins.copilot',
-  -- require 'plugins.dashboard',
   require 'plugins.markdown_preview',
   require 'plugins.oil',
   -- require 'plugins.render_markdown',
   require 'plugins.treesj',
   require 'plugins.lazygit',
   require 'plugins.yazi',
-  -- require 'plugins.neoscroll',
   require 'plugins.harpoon',
 
   require 'plugins.outline',
@@ -1066,6 +1064,9 @@ require('lazy').setup({
   require 'plugins.eyeliner',
 
   require 'plugins.undotree',
+
+  -- OTHERS
+  -- require 'plugins.claude-code',
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
