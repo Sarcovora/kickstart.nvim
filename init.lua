@@ -80,11 +80,11 @@ vim.o.hidden = true
 -- Lazyredraw: Avoid unnecessary screen redraws during macro execution or long commands
 vim.o.lazyredraw = true
 
---   Enable fold saving across sessions
+-- Enable fold saving across sessions
 vim.opt.viewoptions:append 'folds'
 vim.opt.foldmethod = 'manual'
 
---   Start with all folds open by default
+-- Start with all folds open by default
 vim.opt.foldlevelstart = 99
 
 --   Automatically save folds when leaving a buffer
@@ -124,12 +124,6 @@ vim.api.nvim_create_autocmd('BufEnter', {
   command = 'setlocal formatoptions-=o',
 })
 
--- Normal mode: Toggle comment on the current line
--- vim.api.nvim_set_keymap('n', '<C-/>', 'gcc', { noremap = false, silent = true })
-
--- Visual mode: Toggle comment on the selected lines
--- vim.api.nvim_set_keymap('v', '<C-/>', 'gc', { noremap = false, silent = true })
-
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -158,16 +152,6 @@ vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower win
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- Toggle LSP diagnostics on and off
--- vim.keymap.set('n', '<leader>ld', function()
---   vim.diagnostic.disable()
---   print 'Linter diagnostics disabled'
--- end, { desc = 'Disable Linter Diagnostics' })
---
--- vim.keymap.set('n', '<leader>le', function()
---   vim.diagnostic.enable()
---   print 'Linter diagnostics enabled'
--- end, { desc = 'Enable Linter Diagnostics' })
-
 local diagnostics_enabled = true
 
 vim.keymap.set('n', '<leader>ld', function()
@@ -210,7 +194,7 @@ end
 local rtp = vim.opt.rtp
 rtp:prepend(lazypath)
 
--- NOTE: Setting the MASON_PYTHON environment variable
+-- Setting the MASON_PYTHON environment variable
 vim.env.MASON_PYTHON = '/usr/bin/python3'
 
 -- [[ Configure and install plugins ]]
@@ -223,7 +207,6 @@ vim.env.MASON_PYTHON = '/usr/bin/python3'
 --  To update plugins you can run
 --    :Lazy update
 --
--- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   require 'plugins.guess-indent', -- Automatically detect tabstop and shiftwidth
   require 'plugins.whichkey', -- useful plugin to show you pending keybinds.
