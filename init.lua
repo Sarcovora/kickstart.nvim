@@ -369,11 +369,13 @@ require('lazy').setup({
         -- You can put your default mappings / updates / etc. in here
         --  All the info you're looking for is in `:help telescope.setup()`
         --
-        -- defaults = {
-        --   mappings = {
-        --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-        --   },
-        -- },
+        defaults = {
+          --   mappings = {
+          --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
+          --   },
+          layout_strategy = 'vertical',
+          path_display = { 'smart' },
+        },
         -- pickers = {}
         extensions = {
           ['ui-select'] = {
@@ -800,10 +802,35 @@ require('lazy').setup({
         nerd_font_variant = 'mono',
       },
 
+      -- completion = {
+      --   -- By default, you may press `<c-space>` to show the documentation.
+      --   -- Optionally, set `auto_show = true` to show the documentation after a delay.
+      --   documentation = { auto_show = false, auto_show_delay_ms = 500 },
+      -- },
+
       completion = {
-        -- By default, you may press `<c-space>` to show the documentation.
-        -- Optionally, set `auto_show = true` to show the documentation after a delay.
-        documentation = { auto_show = false, auto_show_delay_ms = 500 },
+        -- configure the completion *menu* itself
+        menu = {
+          -- draw two columns like nvim-cmp:
+          draw = {
+            columns = {
+              { 'label', 'label_description', gap = 1 },
+              { 'kind_icon', 'kind' },
+            },
+          },
+          border = 'rounded',
+          -- tweak highlights so the border matches your theme
+          winhighlight = 'Normal:Normal,FloatBorder:FloatBorder,CursorLine:BlinkCmpMenuSelection,Search:None',
+        },
+
+        -- configure the documentation window that pops up on <C-space> (or auto_show)
+        documentation = {
+          window = {
+            border = 'rounded',
+          },
+          auto_show = true,
+          auto_show_delay_ms = 500,
+        },
       },
 
       sources = {
@@ -1065,9 +1092,9 @@ require('lazy').setup({
 vim.o.termguicolors = true
 
 -- Set transparent vim background, but after the colorscheme has been set
--- vim.cmd [[highlight Normal guibg=none]]
--- vim.cmd [[highlight NonText guibg=none]]
--- vim.cmd [[highlight NormalFloat guibg=none]]
+vim.cmd [[highlight Normal guibg=none]]
+vim.cmd [[highlight NonText guibg=none]]
+vim.cmd [[highlight NormalFloat guibg=none]]
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
