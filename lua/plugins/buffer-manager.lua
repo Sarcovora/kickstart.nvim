@@ -4,6 +4,7 @@ return {
   config = function()
     require('buffer_manager').setup {
       width = 0.9,
+      height = 0.6,
       select_menu_item_commands = {
         v = {
           key = '<C-v>',
