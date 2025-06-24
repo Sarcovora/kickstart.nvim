@@ -291,9 +291,9 @@ require('lazy').setup({
 vim.o.termguicolors = true
 
 -- Set transparent vim background, but after the colorscheme has been set
-vim.cmd [[highlight Normal guibg=none]]
-vim.cmd [[highlight NonText guibg=none]]
-vim.cmd [[highlight NormalFloat guibg=none]]
+-- vim.cmd [[highlight Normal guibg=none]]
+-- vim.cmd [[highlight NonText guibg=none]]
+-- vim.cmd [[highlight NormalFloat guibg=none]]
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

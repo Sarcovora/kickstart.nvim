@@ -80,7 +80,6 @@ return { -- Collection of various small independent plugins/modules
       else
         -- Filename box + path in normal statusline color
         return filepath .. '/' .. filename_box
-        -- return filename_box .. ' ./' .. filepath
       end
     end
 
