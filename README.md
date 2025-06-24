@@ -181,7 +181,7 @@ sudo pacman -S --noconfirm --needed gcc make git ripgrep fd unzip neovim
 ---
 ## Folder Structure
 ```
-~/.config/nvim
+.
 ├── LICENSE.md
 ├── README.md
 ├── init.lua
@@ -189,21 +189,26 @@ sudo pacman -S --noconfirm --needed gcc make git ripgrep fd unzip neovim
 └── lua
     ├── health.lua
     └── plugins
+        ├── autocompletion.lua
+        ├── autoformat.lua
         ├── autopairs.lua
         ├── autosession.lua
+        ├── claude-code.lua
         ├── colorizer.lua
+        ├── colorscheme.lua
         ├── copilot.lua
-        ├── dashboard.lua
         ├── debug.lua
         ├── eyeliner.lua
         ├── gitsigns.lua
         ├── harpoon.lua
         ├── indent_line.lua
+        ├── inline-diagnostic.lua
         ├── lazygit.lua
         ├── lint.lua
+        ├── lspconfig.lua
         ├── markdown_preview.lua
+        ├── mini-nvim.lua
         ├── neo-tree.lua
-        ├── neoscroll.lua
         ├── oil.lua
         ├── outline.lua
         ├── plugin-data
@@ -213,10 +218,15 @@ sudo pacman -S --noconfirm --needed gcc make git ripgrep fd unzip neovim
         │   ├── screen_md.css
         │   └── splendor_md.css
         ├── render_markdown.lua
+        ├── telescope.lua
+        ├── todo-comments.lua
+        ├── treesitter.lua
         ├── treesitter_context.lua
         ├── treesj.lua
+        ├── undotree.lua
         ├── vimtex.lua
+        ├── whichkey.lua
         └── yazi.lua
 
-4 directories, 32 files
+4 directories, 42 files
 ```
