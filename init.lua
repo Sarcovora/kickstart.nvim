@@ -211,7 +211,7 @@ require('lazy').setup({
   require 'plugins.whichkey', -- useful plugin to show you pending keybinds.
   require 'plugins.telescope', -- fuzzy finder, file search, etc
 
-  -- LSP Plugins
+  -- LSP
   require 'plugins.inline-diagnostic',
   {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
@@ -229,45 +229,52 @@ require('lazy').setup({
   require 'plugins.lspconfig', -- 'neovim/nvim-lspconfig',
   -- 'Decodetalkers/csharpls-extended-lsp.nvim',
 
-  -- CORE PLUGINS
+  -- CORE
   require 'plugins.autoformat', -- conform.nvim; also contains autoformatting block
   require 'plugins.autocompletion', -- blink.cmp
-  require 'plugins.colorscheme',
   require 'plugins.todo-comments', -- highlight todo, notes, etc in comments
   require 'plugins.mini-nvim', -- surround, text objects, statusline
   require 'plugins.treesitter',
+  require 'plugins.snacks',
+  require 'plugins.debug',
 
-  -- MAIN
+  -- Appearance
+  require 'plugins.colorscheme',
+  require 'plugins.dropbar', -- breadcrumbs
+  -- require 'plugins.treesitter_context', -- shows the current context of your code (function, class, etc.) in top bar... can be annoying
+
+  -- Functional
   require 'plugins.autopairs',
   require 'plugins.indent_line', -- adds vertical lines to show indent levels
-  require 'plugins.neo-tree', -- file explorer
   require 'plugins.gitsigns', -- adds gitsigns recommend keymaps
-
-  require 'plugins.snacks',
-  require 'plugins.colorizer',
-  require 'plugins.markdown_preview',
-  require 'plugins.oil',
   require 'plugins.treesj',
-  require 'plugins.lazygit',
-  require 'plugins.yazi',
-  require 'plugins.harpoon',
-  require 'plugins.outline',
-  require 'plugins.autosession',
-  require 'plugins.vimtex',
-  require 'plugins.eyeliner',
-  require 'plugins.undotree',
+  require 'plugins.lint',
 
-  -- OPTIONAL
+  -- Nav + Management
+  require 'plugins.neo-tree', -- file explorer
+  require 'plugins.yazi',
+  require 'plugins.oil',
+  require 'plugins.outline',
+  require 'plugins.harpoon',
   require 'plugins.buffer-manager',
   require 'plugins.leap',
+  -- require 'plugins.eyeliner',
+
+  require 'plugins.colorizer',
+  require 'plugins.lazygit',
+  require 'plugins.autosession',
+  require 'plugins.undotree',
   require 'plugins.highlight-undo', -- highlight undo history
-  require 'plugins.dropbar', -- breadcrumbs
-  require 'plugins.debug',
-  require 'plugins.lint',
+
+  -- Stack dependant add-ons
+  require 'plugins.markdown_preview',
+  -- require 'plugins.render_markdown', -- renders markdown files in a floating window
+  require 'plugins.vimtex',
+
+  -- AI
   -- require 'plugins.copilot',
   -- require 'plugins.claude-code',
-  -- require 'plugins.render_markdown', -- renders markdown files in a floating window
-  -- require 'plugins.treesitter_context', -- shows the current context of your code (function, class, etc.) in top bar... can be annoying
+
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
