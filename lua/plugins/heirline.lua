@@ -47,6 +47,29 @@ return {
       return counts
     end
 
+    -- Shared mode colors table
+    local mode_colors = {
+      n = 'subtle',
+      i = 'foam',
+      v = 'iris',
+      V = 'iris',
+      ['\22'] = 'iris',
+      c = 'gold',
+      s = 'rose',
+      S = 'rose',
+      ['\19'] = 'rose',
+      R = 'love',
+      r = 'love',
+      ['!'] = 'love',
+      t = 'pine',
+    }
+
+    -- Function to get current mode color
+    local function get_mode_color()
+      local mode = vim.fn.mode(1):sub(1, 1)
+      return mode_colors[mode] or 'subtle'
+    end
+
     -- Mode component
     local ViMode = {
       init = function(self)
@@ -89,21 +112,7 @@ return {
           ['!'] = '!',
           t = 'T',
         },
-        mode_colors = {
-          n = 'subtle',
-          i = 'foam',
-          v = 'iris',
-          V = 'iris',
-          ['\22'] = 'iris',
-          c = 'gold',
-          s = 'rose',
-          S = 'rose',
-          ['\19'] = 'rose',
-          R = 'love',
-          r = 'love',
-          ['!'] = 'love',
-          t = 'pine',
-        },
+        mode_colors = mode_colors,
       },
       utils.surround({ '', '' }, function(self)
         local mode = self.mode:sub(1, 1)
@@ -301,10 +310,22 @@ return {
       hl = { fg = 'iris' },
     }
 
-    -- Ruler (position)
+    -- Ruler (position) with mode-synchronized background
     local Ruler = {
-      provider = '%l:%c',
-      hl = { fg = 'text' },
+      init = function(self)
+        self.mode = vim.fn.mode(1)
+      end,
+      utils.surround({ '', '' }, get_mode_color, {
+        provider = ' %l:%c ',
+        hl = { fg = 'base', bold = true },
+      }),
+      update = {
+        'ModeChanged',
+        pattern = '*:*',
+        callback = vim.schedule_wrap(function()
+          vim.cmd 'redrawstatus'
+        end),
+      },
     }
 
     local Space = { provider = ' ' }
