@@ -70,7 +70,7 @@ return {
       return mode_colors[mode] or 'subtle'
     end
 
-    -- Mode component
+    -- Mode component with highest priority (never truncated)
     local ViMode = {
       init = function(self)
         self.mode = vim.fn.mode(1)
@@ -139,37 +139,56 @@ return {
         self.status_dict = vim.b.gitsigns_status_dict
         self.show_full = false
       end,
-      utils.surround({ '', '' }, 'surface', {
-        provider = function(self)
-          local branch = self.status_dict and self.status_dict.head or ''
-          if branch == '' then
-            return '󰊢 '
-          end
+      flexible = 3,  -- Lower priority for truncation
+      {
+        utils.surround({ '', '' }, 'surface', {
+          provider = function(self)
+            local branch = self.status_dict and self.status_dict.head or ''
+            if branch == '' then
+              return '󰊢 '
+            end
 
-          -- Show full branch name if clicked or if it's short enough
-          if self.show_full or #branch <= 35 then
-            return '󰊢 ' .. branch
-          else
-            -- Truncate long branch names
-            return '󰊢 ' .. branch:sub(1, 32) .. '...'
-          end
-        end,
-        hl = { fg = 'pine', bold = true },
-        on_click = {
-          callback = function(self)
-            self.show_full = not self.show_full
-            vim.cmd 'redrawstatus'
-            -- Auto-hide after 3 seconds
-            if self.show_full then
-              vim.defer_fn(function()
-                self.show_full = false
-                vim.cmd 'redrawstatus'
-              end, 3000)
+            -- Show full branch name if clicked or if it's short enough
+            if self.show_full or #branch <= 35 then
+              return '󰊢 ' .. branch
+            else
+              -- Truncate long branch names
+              return '󰊢 ' .. branch:sub(1, 32) .. '...'
             end
           end,
-          name = 'heirline_git_branch',
-        },
-      }),
+          hl = { fg = 'pine', bold = true },
+          on_click = {
+            callback = function(self)
+              self.show_full = not self.show_full
+              vim.cmd 'redrawstatus'
+              -- Auto-hide after 3 seconds
+              if self.show_full then
+                vim.defer_fn(function()
+                  self.show_full = false
+                  vim.cmd 'redrawstatus'
+                end, 3000)
+              end
+            end,
+            name = 'heirline_git_branch',
+          },
+        }),
+      },
+      {
+        utils.surround({ '', '' }, 'surface', {
+          provider = function(self)
+            local branch = self.status_dict and self.status_dict.head or ''
+            if branch == '' then
+              return '󰊢 '
+            end
+            -- Shorter version
+            return '󰊢 ' .. branch:sub(1, 15) .. '...'
+          end,
+          hl = { fg = 'pine', bold = true },
+        }),
+      },
+      {
+        provider = '',  -- Hidden when no space
+      },
     }
 
     -- File components
@@ -188,14 +207,20 @@ return {
     }
 
     local FilePath = {
-      provider = function()
-        local filepath = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ':~:.:h')
-        if filepath == '' or filepath == '.' then
-          return ''
-        end
-        return filepath .. '/'
-      end,
-      hl = { fg = 'muted' },
+      flexible = 5,  -- Medium-low priority
+      {
+        provider = function()
+          local filepath = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ':~:.:h')
+          if filepath == '' or filepath == '.' then
+            return ''
+          end
+          return filepath .. '/'
+        end,
+        hl = { fg = 'muted' },
+      },
+      {
+        provider = '',  -- Hidden when no space
+      },
     }
 
     local FileName = {
@@ -232,23 +257,29 @@ return {
       init = function(self)
         self.status_dict = vim.b.gitsigns_status_dict or {}
       end,
+      flexible = 4,  -- Medium priority
       {
-        provider = function(self)
-          return self.status_dict.added and self.status_dict.added > 0 and ('+' .. self.status_dict.added) or ''
-        end,
-        hl = { fg = 'foam' },
+        {
+          provider = function(self)
+            return self.status_dict.added and self.status_dict.added > 0 and ('+' .. self.status_dict.added) or ''
+          end,
+          hl = { fg = 'foam' },
+        },
+        {
+          provider = function(self)
+            return self.status_dict.changed and self.status_dict.changed > 0 and (' ~' .. self.status_dict.changed) or ''
+          end,
+          hl = { fg = 'gold' },
+        },
+        {
+          provider = function(self)
+            return self.status_dict.removed and self.status_dict.removed > 0 and (' -' .. self.status_dict.removed) or ''
+          end,
+          hl = { fg = 'love' },
+        },
       },
       {
-        provider = function(self)
-          return self.status_dict.changed and self.status_dict.changed > 0 and (' ~' .. self.status_dict.changed) or ''
-        end,
-        hl = { fg = 'gold' },
-      },
-      {
-        provider = function(self)
-          return self.status_dict.removed and self.status_dict.removed > 0 and (' -' .. self.status_dict.removed) or ''
-        end,
-        hl = { fg = 'love' },
+        provider = '',  -- Hidden when no space
       },
     }
 
@@ -271,55 +302,88 @@ return {
             hint = 'H',
           }
       end,
+      flexible = 2,  -- Higher priority
       {
+        {
+          provider = function(self)
+            return self.counts.error > 0 and (self.diagnostic_icons.error .. self.counts.error) or ''
+          end,
+          hl = { fg = 'love' },
+        },
+        {
+          provider = function(self)
+            return self.counts.warn > 0 and (' ' .. self.diagnostic_icons.warn .. self.counts.warn) or ''
+          end,
+          hl = { fg = 'gold' },
+        },
+        {
+          provider = function(self)
+            return self.counts.info > 0 and (' ' .. self.diagnostic_icons.info .. self.counts.info) or ''
+          end,
+          hl = { fg = 'foam' },
+        },
+        {
+          provider = function(self)
+            return self.counts.hint > 0 and (' ' .. self.diagnostic_icons.hint .. self.counts.hint) or ''
+          end,
+          hl = { fg = 'iris' },
+        },
+      },
+      {
+        -- Show only errors when space is limited
         provider = function(self)
           return self.counts.error > 0 and (self.diagnostic_icons.error .. self.counts.error) or ''
         end,
         hl = { fg = 'love' },
       },
       {
-        provider = function(self)
-          return self.counts.warn > 0 and (' ' .. self.diagnostic_icons.warn .. self.counts.warn) or ''
-        end,
-        hl = { fg = 'gold' },
-      },
-      {
-        provider = function(self)
-          return self.counts.info > 0 and (' ' .. self.diagnostic_icons.info .. self.counts.info) or ''
-        end,
-        hl = { fg = 'foam' },
-      },
-      {
-        provider = function(self)
-          return self.counts.hint > 0 and (' ' .. self.diagnostic_icons.hint .. self.counts.hint) or ''
-        end,
-        hl = { fg = 'iris' },
+        provider = '',  -- Hidden when no space
       },
     }
 
     -- Indent info
     local IndentInfo = {
-      provider = function()
-        local indent_type = vim.bo.expandtab and 'Spaces' or 'Tabs'
-        local indent_size = vim.bo.expandtab and vim.bo.shiftwidth or vim.bo.tabstop
-        return indent_type .. ':' .. indent_size
-      end,
-      hl = { fg = 'subtle' },
+      flexible = 6,  -- Low priority
+      {
+        provider = function()
+          local indent_type = vim.bo.expandtab and 'Spaces' or 'Tabs'
+          local indent_size = vim.bo.expandtab and vim.bo.shiftwidth or vim.bo.tabstop
+          return indent_type .. ':' .. indent_size
+        end,
+        hl = { fg = 'subtle' },
+      },
+      {
+        provider = '',  -- Hidden when no space
+      },
     }
 
     -- LSP Active with icon
     local LSPActive = {
       condition = conditions.lsp_attached,
       update = { 'LspAttach', 'LspDetach' },
-      provider = function()
-        local names = {}
-        for _, server in pairs(vim.lsp.get_clients { bufnr = 0 }) do
-          table.insert(names, server.name)
-        end
-        local lsp_icon = vim.g.have_nerd_font and ' ' or 'LSP:'
-        return lsp_icon .. table.concat(names, ' ')
-      end,
-      hl = { fg = 'pine' },
+      flexible = 5,  -- Medium-low priority
+      {
+        provider = function()
+          local names = {}
+          for _, server in pairs(vim.lsp.get_clients { bufnr = 0 }) do
+            table.insert(names, server.name)
+          end
+          local lsp_icon = vim.g.have_nerd_font and ' ' or 'LSP:'
+          return lsp_icon .. table.concat(names, ' ')
+        end,
+        hl = { fg = 'pine' },
+      },
+      {
+        -- Show just icon when space is limited
+        provider = function()
+          local lsp_icon = vim.g.have_nerd_font and ' ' or 'LSP'
+          return lsp_icon
+        end,
+        hl = { fg = 'pine' },
+      },
+      {
+        provider = '',  -- Hidden when no space
+      },
     }
 
     -- File type with icon
@@ -336,7 +400,7 @@ return {
       hl = { fg = 'iris' },
     }
 
-    -- Ruler (position) with mode-synchronized background
+    -- Ruler (position) with mode-synchronized background - high priority
     local Ruler = {
       init = function(self)
         self.mode = vim.fn.mode(1)
@@ -357,18 +421,18 @@ return {
     local Space = { provider = ' ' }
     local Align = { provider = '%=' }
 
-    -- Assemble statusline
+    -- Assemble statusline with flexible components
     local StatusLine = {
       hl = { bg = 'base' },
       -- Left side
-      ViMode,
+      ViMode,  -- Never truncated
       Space,
       GitBranch,
       Space,
       -- FileIcon,
       FilePath,
-      FileName,
-      FileFlags,
+      FileName,  -- Never truncated
+      FileFlags,  -- Never truncated
       -- Center
       Align,
       -- Right side
@@ -382,7 +446,7 @@ return {
       Space,
       -- FileType,
       -- Space,
-      Ruler,
+      Ruler,  -- Never truncated
     }
 
     -- Load colors first
