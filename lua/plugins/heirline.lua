@@ -131,7 +131,7 @@ return {
       end,
       utils.surround({ '', '' }, 'surface', {
         provider = function(self)
-          return ' 󰊢 ' .. (self.status_dict and self.status_dict.head or '') .. ' '
+          return '󰊢 ' .. (self.status_dict and self.status_dict.head or '') .. ' '
         end,
         hl = { fg = 'pine', bold = true },
       }),
@@ -278,7 +278,7 @@ return {
       update = { 'LspAttach', 'LspDetach' },
       provider = function()
         local names = {}
-        for _, server in pairs(vim.lsp.get_active_clients { bufnr = 0 }) do
+        for _, server in pairs(vim.lsp.get_clients { bufnr = 0 }) do
           table.insert(names, server.name)
         end
         local lsp_icon = vim.g.have_nerd_font and ' ' or 'LSP:'
@@ -317,7 +317,7 @@ return {
       ViMode,
       Space,
       GitBranch,
-      Space,
+      -- Space,
       FileIcon,
       FilePath,
       FileName,
@@ -326,15 +326,15 @@ return {
       Align,
       -- Right side
       GitDiff,
-      Space,
+      -- Space,
       Diagnostics,
       Space,
       IndentInfo,
-      Space,
+      -- Space,
       LSPActive,
       Space,
-      FileType,
-      Space,
+      -- FileType,
+      -- Space,
       Ruler,
     }
 
