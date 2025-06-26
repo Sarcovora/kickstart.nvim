@@ -105,13 +105,15 @@ return {
           t = 'pine',
         },
       },
-      provider = function(self)
-        return '▊ ' .. self.mode_names[self.mode] .. ' '
-      end,
-      hl = function(self)
+      utils.surround({ '', '' }, function(self)
         local mode = self.mode:sub(1, 1)
-        return { fg = self.mode_colors[mode] or 'subtle', bold = true }
-      end,
+        return self.mode_colors[mode] or 'subtle'
+      end, {
+        provider = function(self)
+          return ' ' .. self.mode_names[self.mode] .. ' '
+        end,
+        hl = { fg = 'base', bold = true },
+      }),
       update = {
         'ModeChanged',
         pattern = '*:*',
@@ -127,12 +129,12 @@ return {
       init = function(self)
         self.status_dict = vim.b.gitsigns_status_dict
       end,
-      provider = function(self)
-        local icon = ''
-        local branch_name = self.status_dict and self.status_dict.head or 'unknown'
-        return icon .. branch_name
-      end,
-      hl = { fg = 'pine', bold = true },
+      utils.surround({ '', '' }, 'surface', {
+        provider = function(self)
+          return ' 󰊢 ' .. (self.status_dict and self.status_dict.head or '') .. ' '
+        end,
+        hl = { fg = 'pine', bold = true },
+      }),
     }
 
     -- File components
@@ -220,17 +222,19 @@ return {
       condition = conditions.has_diagnostics,
       init = function(self)
         self.counts = get_diagnostic_counts()
-        self.diagnostic_icons = vim.g.have_nerd_font and {
-          error = '󰅚',
-          warn = '󰀪',
-          info = '󰋽',
-          hint = '󰌶',
-        } or {
-          error = 'E',
-          warn = 'W',
-          info = 'I',
-          hint = 'H',
-        }
+        self.diagnostic_icons = vim.g.have_nerd_font
+            and {
+              error = '󰅚',
+              warn = '󰀪',
+              info = '󰋽',
+              hint = '󰌶',
+            }
+          or {
+            error = 'E',
+            warn = 'W',
+            info = 'I',
+            hint = 'H',
+          }
       end,
       {
         provider = function(self)
