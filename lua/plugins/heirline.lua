@@ -267,7 +267,7 @@ return {
       provider = function()
         local indent_type = vim.bo.expandtab and 'Spaces' or 'Tabs'
         local indent_size = vim.bo.expandtab and vim.bo.shiftwidth or vim.bo.tabstop
-        return indent_type .. ' ' .. indent_size
+        return indent_type .. ':' .. indent_size
       end,
       hl = { fg = 'subtle' },
     }
