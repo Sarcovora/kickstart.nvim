@@ -131,7 +131,7 @@ return {
       end,
       utils.surround({ '', '' }, 'surface', {
         provider = function(self)
-          return '󰊢 ' .. (self.status_dict and self.status_dict.head or '') .. ' '
+          return '󰊢 ' .. (self.status_dict and self.status_dict.head or '')
         end,
         hl = { fg = 'pine', bold = true },
       }),
@@ -317,8 +317,8 @@ return {
       ViMode,
       Space,
       GitBranch,
-      -- Space,
-      FileIcon,
+      Space,
+      -- FileIcon,
       FilePath,
       FileName,
       FileFlags,
