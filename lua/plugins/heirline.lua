@@ -137,12 +137,38 @@ return {
       condition = conditions.is_git_repo,
       init = function(self)
         self.status_dict = vim.b.gitsigns_status_dict
+        self.show_full = false
       end,
       utils.surround({ '', '' }, 'surface', {
         provider = function(self)
-          return '󰊢 ' .. (self.status_dict and self.status_dict.head or '')
+          local branch = self.status_dict and self.status_dict.head or ''
+          if branch == '' then
+            return '󰊢 '
+          end
+
+          -- Show full branch name if clicked or if it's short enough
+          if self.show_full or #branch <= 35 then
+            return '󰊢 ' .. branch
+          else
+            -- Truncate long branch names
+            return '󰊢 ' .. branch:sub(1, 32) .. '...'
+          end
         end,
         hl = { fg = 'pine', bold = true },
+        on_click = {
+          callback = function(self)
+            self.show_full = not self.show_full
+            vim.cmd 'redrawstatus'
+            -- Auto-hide after 3 seconds
+            if self.show_full then
+              vim.defer_fn(function()
+                self.show_full = false
+                vim.cmd 'redrawstatus'
+              end, 3000)
+            end
+          end,
+          name = 'heirline_git_branch',
+        },
       }),
     }
 
@@ -365,6 +391,14 @@ return {
     -- Setup heirline
     heirline.setup {
       statusline = StatusLine,
+      opts = {
+        disable_winbar_cb = function(args)
+          return conditions.buffer_matches({
+            buftype = { 'nofile', 'prompt', 'help', 'quickfix' },
+            filetype = { '^git.*', 'fugitive' },
+          }, args.buf)
+        end,
+      },
     }
   end,
 }
