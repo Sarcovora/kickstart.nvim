@@ -373,7 +373,7 @@ return {
       Align,
       -- Right side
       GitDiff,
-      -- Space,
+      Space,
       Diagnostics,
       Space,
       IndentInfo,
