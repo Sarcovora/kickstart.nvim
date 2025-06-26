@@ -391,14 +391,6 @@ return {
     -- Setup heirline
     heirline.setup {
       statusline = StatusLine,
-      opts = {
-        disable_winbar_cb = function(args)
-          return conditions.buffer_matches({
-            buftype = { 'nofile', 'prompt', 'help', 'quickfix' },
-            filetype = { '^git.*', 'fugitive' },
-          }, args.buf)
-        end,
-      },
     }
   end,
 }
