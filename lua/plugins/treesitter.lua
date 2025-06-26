@@ -20,6 +20,7 @@ return { -- Highlight, edit, and navigate code
       'javascript',
       'typescript',
       'css',
+      'angular',
       'scss',
     },
     -- Autoinstall languages that are not installed

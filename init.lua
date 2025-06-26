@@ -227,7 +227,7 @@ require('lazy').setup({
   },
   { 'Bilal2453/luvit-meta', lazy = true },
   require 'plugins.lspconfig', -- 'neovim/nvim-lspconfig',
-  -- 'Decodetalkers/csharpls-extended-lsp.nvim',
+  'Decodetalkers/csharpls-extended-lsp.nvim',
 
   -- CORE
   require 'plugins.autoformat', -- conform.nvim; also contains autoformatting block
@@ -242,6 +242,7 @@ require('lazy').setup({
   require 'plugins.colorscheme',
   require 'plugins.dropbar', -- breadcrumbs
   -- require 'plugins.treesitter_context', -- shows the current context of your code (function, class, etc.) in top bar... can be annoying
+  require 'plugins.heirline',
 
   -- Functional
   require 'plugins.autopairs',
@@ -273,7 +274,7 @@ require('lazy').setup({
 
   -- AI
   -- require 'plugins.copilot',
-  -- require 'plugins.claude-code',
+  require 'plugins.claude-code',
 
 }, {
   ui = {

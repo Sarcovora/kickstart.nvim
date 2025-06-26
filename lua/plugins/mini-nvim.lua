@@ -21,6 +21,6 @@ return { -- Collection of various small independent plugins/modules
     vim.keymap.set('n', 's', '<Nop>', { silent = true })
     vim.keymap.set('v', 's', '<Nop>', { silent = true })
 
-    require('config.mini-statusline')
+    -- require('config.mini-statusline')
   end,
 }
