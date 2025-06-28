@@ -240,9 +240,10 @@ require('lazy').setup({
 
   -- Appearance
   require 'plugins.colorscheme',
-  require 'plugins.dropbar', -- breadcrumbs
+  -- require 'plugins.dropbar', -- breadcrumbs
   -- require 'plugins.treesitter_context', -- shows the current context of your code (function, class, etc.) in top bar... can be annoying
   require 'plugins.heirline',
+  require 'plugins.incline',
 
   -- Functional
   require 'plugins.autopairs',
