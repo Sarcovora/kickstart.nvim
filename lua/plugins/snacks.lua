@@ -10,7 +10,13 @@ return {
 
     -- Disabled
     terminal = { enabled = false },
-    scroll = { enabled = false },
+    scroll = {
+      enabled = true,
+      animate = {
+        duration = { step = 10, total = 75 },
+        easing = 'linear',
+      },
+    },
     lazygit = { enabled = false },
     notifier = { enabled = false },
     dashboard = { enabled = false },
