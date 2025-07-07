@@ -19,14 +19,15 @@ return {
     popup_border_style = 'NC',
     enable_git_status = true,
     enable_diagnostics = true,
-    event_handlers = {
-      {
-        event = "neo_tree_buffer_enter",
-        handler = function(arg)
-          vim.opt_local.relativenumber = true
-        end,
-      }
-    },
+    -- Relative line numbers... WARNING - May cause lag
+    -- event_handlers = {
+    --   {
+    --     event = "neo_tree_buffer_enter",
+    --     handler = function(arg)
+    --       vim.opt_local.relativenumber = true
+    --     end,
+    --   }
+    -- },
     filesystem = {
       window = {
         mappings = {

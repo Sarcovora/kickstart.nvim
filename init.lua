@@ -251,6 +251,7 @@ require('lazy').setup({
   require 'plugins.gitsigns', -- adds gitsigns recommend keymaps
   require 'plugins.treesj',
   require 'plugins.lint',
+  require 'plugins.neotest',
 
   -- Nav + Management
   require 'plugins.neo-tree', -- file explorer
