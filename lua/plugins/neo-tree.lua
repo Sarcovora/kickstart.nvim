@@ -36,6 +36,9 @@ return {
           ['zc'] = 'close_all_nodes',
         },
       },
+      buffers = {
+        show_unloaded = true,
+      },
       filtered_items = {
         visible = true,
         hide_dotfiles = false,
