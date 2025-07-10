@@ -244,6 +244,7 @@ require('lazy').setup({
   -- require 'plugins.treesitter_context', -- shows the current context of your code (function, class, etc.) in top bar... can be annoying
   require 'plugins.heirline',
   require 'plugins.incline',
+  { 'sitiom/nvim-numbertoggle' },
 
   -- Functional
   require 'plugins.autopairs',
@@ -261,7 +262,6 @@ require('lazy').setup({
   require 'plugins.harpoon',
   require 'plugins.buffer-manager',
   require 'plugins.leap',
-  -- require 'plugins.eyeliner',
 
   require 'plugins.colorizer',
   require 'plugins.lazygit',
