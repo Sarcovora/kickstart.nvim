@@ -66,21 +66,12 @@ vim.o.laststatus = 3
 -- Buffer related options
 vim.o.hidden = true
 
--- Tabs and Indentation NOTE: somewhat irrelevant now that we have vim-sleuth / guess-indent
--- vim.o.tabstop = 4
--- vim.o.shiftwidth = 4
---
--- vim.o.expandtab = true
--- vim.o.autoindent = true
--- vim.o.smartindent = true
-
 -- Lazyredraw: Avoid unnecessary screen redraws during macro execution or long commands
 vim.o.lazyredraw = true
 
 -- Folding
 vim.opt.foldmethod = "indent"
 vim.opt.foldlevel = 3
-
 -- Start with all folds open by default
 -- vim.opt.foldlevelstart = 99
 
@@ -113,8 +104,6 @@ vim.api.nvim_create_autocmd('BufEnter', {
 })
 
 -- [[ Basic Keymaps ]]
---  See `:help vim.keymap.set()`
-
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
