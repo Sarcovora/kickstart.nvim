@@ -193,22 +193,30 @@ sudo pacman -S --noconfirm --needed gcc make git ripgrep fd unzip neovim
         ├── autoformat.lua
         ├── autopairs.lua
         ├── autosession.lua
+        ├── buffer-manager.lua
         ├── claude-code.lua
         ├── colorizer.lua
         ├── colorscheme.lua
         ├── copilot.lua
         ├── debug.lua
-        ├── eyeliner.lua
+        ├── dropbar.lua
         ├── gitsigns.lua
+        ├── guess-indent.lua
         ├── harpoon.lua
+        ├── heirline.lua
+        ├── highlight-undo.lua
+        ├── incline.lua
         ├── indent_line.lua
         ├── inline-diagnostic.lua
+        ├── lazydev.lua
         ├── lazygit.lua
+        ├── leap.lua
         ├── lint.lua
         ├── lspconfig.lua
         ├── markdown_preview.lua
         ├── mini-nvim.lua
         ├── neo-tree.lua
+        ├── neotest.lua
         ├── oil.lua
         ├── outline.lua
         ├── plugin-data
@@ -218,6 +226,7 @@ sudo pacman -S --noconfirm --needed gcc make git ripgrep fd unzip neovim
         │   ├── screen_md.css
         │   └── splendor_md.css
         ├── render_markdown.lua
+        ├── snacks.lua
         ├── telescope.lua
         ├── todo-comments.lua
         ├── treesitter.lua
@@ -228,5 +237,5 @@ sudo pacman -S --noconfirm --needed gcc make git ripgrep fd unzip neovim
         ├── whichkey.lua
         └── yazi.lua
 
-4 directories, 42 files
+4 directories, 51 files
 ```
