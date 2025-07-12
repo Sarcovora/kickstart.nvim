@@ -196,16 +196,6 @@ rtp:prepend(lazypath)
 -- Setting the MASON_PYTHON environment variable
 vim.env.MASON_PYTHON = '/usr/bin/python3'
 
--- [[ Configure and install plugins ]]
---
---  To check the current status of your plugins, run
---    :Lazy
---
---  You can press `?` in this menu for help. Use `:q` to close the window
---
---  To update plugins you can run
---    :Lazy update
---
 require('lazy').setup({
   require 'plugins.guess-indent', -- Automatically detect tabstop and shiftwidth
   require 'plugins.whichkey', -- useful plugin to show you pending keybinds.
@@ -213,19 +203,9 @@ require('lazy').setup({
 
   -- LSP
   require 'plugins.inline-diagnostic',
-  {
-    -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
-    -- used for completion, annotations and signatures of Neovim apis
-    'folke/lazydev.nvim',
-    ft = 'lua',
-    opts = {
-      library = {
-        -- Load luvit types when the `vim.uv` word is found
-        { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
-      },
-    },
-  },
-  { 'Bilal2453/luvit-meta', lazy = true },
+
+  -- Language Specific
+  require 'plugins.lazydev', -- code completion for nvim functions
   require 'plugins.lspconfig', -- 'neovim/nvim-lspconfig',
   'Decodetalkers/csharpls-extended-lsp.nvim',
 
@@ -233,18 +213,18 @@ require('lazy').setup({
   require 'plugins.autoformat', -- conform.nvim; also contains autoformatting block
   require 'plugins.autocompletion', -- blink.cmp
   require 'plugins.todo-comments', -- highlight todo, notes, etc in comments
-  require 'plugins.mini-nvim', -- surround, text objects, statusline
+  require 'plugins.mini-nvim', -- surround, text objects
   require 'plugins.treesitter',
   require 'plugins.snacks',
   require 'plugins.debug',
 
   -- Appearance
   require 'plugins.colorscheme',
-  -- require 'plugins.dropbar', -- breadcrumbs
-  -- require 'plugins.treesitter_context', -- shows the current context of your code (function, class, etc.) in top bar... can be annoying
   require 'plugins.heirline',
   require 'plugins.incline',
   { 'sitiom/nvim-numbertoggle' },
+  -- require 'plugins.dropbar', -- breadcrumbs
+  -- require 'plugins.treesitter_context', -- shows the current context of your code (function, class, etc.) in top bar... can be annoying
 
   -- Functional
   require 'plugins.autopairs',
@@ -253,6 +233,8 @@ require('lazy').setup({
   require 'plugins.treesj',
   require 'plugins.lint',
   require 'plugins.neotest',
+  require 'plugins.undotree',
+  require 'plugins.highlight-undo', -- highlight undo history
 
   -- Nav + Management
   require 'plugins.neo-tree', -- file explorer
@@ -266,12 +248,10 @@ require('lazy').setup({
   require 'plugins.colorizer',
   require 'plugins.lazygit',
   require 'plugins.autosession',
-  require 'plugins.undotree',
-  require 'plugins.highlight-undo', -- highlight undo history
 
   -- Stack dependant add-ons
-  require 'plugins.markdown_preview',
   -- require 'plugins.render_markdown', -- renders markdown files in a floating window
+  require 'plugins.markdown_preview',
   require 'plugins.vimtex',
 
   -- AI

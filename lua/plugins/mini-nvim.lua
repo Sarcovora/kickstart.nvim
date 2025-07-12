@@ -20,7 +20,5 @@ return { -- Collection of various small independent plugins/modules
     -- Disable default 's' key behavior in normal and visual modes
     vim.keymap.set('n', 's', '<Nop>', { silent = true })
     vim.keymap.set('v', 's', '<Nop>', { silent = true })
-
-    -- require('config.mini-statusline')
   end,
 }
