@@ -74,26 +74,15 @@ vim.o.hidden = true
 -- vim.o.autoindent = true
 -- vim.o.smartindent = true
 
--- Folding
-
 -- Lazyredraw: Avoid unnecessary screen redraws during macro execution or long commands
 vim.o.lazyredraw = true
 
--- Enable fold saving across sessions
-vim.opt.viewoptions:append 'folds'
-vim.opt.foldmethod = 'manual'
+-- Folding
+vim.opt.foldmethod = "indent"
+vim.opt.foldlevel = 3
 
 -- Start with all folds open by default
-vim.opt.foldlevelstart = 99
-
---   Automatically save folds when leaving a buffer
--- vim.cmd [[
---   augroup remember_folds
---     autocmd!
---     autocmd BufWinLeave * silent! mkview
---     autocmd BufWinEnter * silent! loadview
---   augroup END
--- ]]
+-- vim.opt.foldlevelstart = 99
 
 -- Wrapping
 vim.opt.wrap = false
