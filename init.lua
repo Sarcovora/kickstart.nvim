@@ -11,7 +11,7 @@ vim.o.number = true
 vim.o.relativenumber = true
 vim.o.mouse = 'a'
 
-vim.o.showmode = false
+vim.o.showmode = false -- Normal, Insert, Command, Terminal, etc.
 
 -- Sync clipboard between OS and Neovim.
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
@@ -69,8 +69,10 @@ vim.o.hidden = true
 -- Lazyredraw: Avoid unnecessary screen redraws during macro execution or long commands
 vim.o.lazyredraw = true
 
+vim.o.autoread = true -- Auto reload files changed outside of vim
+
 -- Folding
-vim.opt.foldmethod = "indent"
+vim.opt.foldmethod = 'indent'
 vim.opt.foldlevel = 3
 -- Start with all folds open by default
 -- vim.opt.foldlevelstart = 99
@@ -120,13 +122,18 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 -- Keybinds to make split navigation easier.
---  Use CTRL+<hjkl> to switch between windows
---
---  See `:help wincmd` for a list of all window commands
 vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+
+-- Paging
+vim.keymap.set('n', '<C-d>', '<C-d>zz', { desc = 'Half page down (centered)' })
+vim.keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'Half page up (centered)' })
+
+-- Better indenting in visual mode
+vim.keymap.set('v', '<', '<gv', { desc = 'Indent left and reselect' })
+vim.keymap.set('v', '>', '>gv', { desc = 'Indent right and reselect' })
 
 -- Toggle LSP diagnostics on and off
 local diagnostics_enabled = true
@@ -235,7 +242,6 @@ require('lazy').setup({
   -- AI
   -- require 'plugins.copilot',
   require 'plugins.claude-code',
-
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
@@ -262,9 +268,9 @@ require('lazy').setup({
 vim.o.termguicolors = true
 
 -- Set transparent vim background, but after the colorscheme has been set
-vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
-vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" })
+vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
+vim.api.nvim_set_hl(0, 'NormalNC', { bg = 'none' })
+vim.api.nvim_set_hl(0, 'EndOfBuffer', { bg = 'none' })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
