@@ -73,9 +73,9 @@ vim.o.autoread = true -- Auto reload files changed outside of vim
 
 -- Folding
 vim.opt.foldmethod = 'indent'
-vim.opt.foldlevel = 3
+-- vim.opt.foldlevel = 3
 -- Start with all folds open by default
--- vim.opt.foldlevelstart = 99
+vim.opt.foldlevelstart = 99
 
 -- Wrapping
 vim.opt.wrap = false
