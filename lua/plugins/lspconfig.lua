@@ -243,7 +243,7 @@ return {
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
     require('mason-lspconfig').setup {
-      ensure_instaled = { 'rust_analyzer', 'lua_ls' },
+      ensure_installed = { 'rust_analyzer', 'lua_ls' },
       automatic_installation = false,
       automatic_enable = true,
       handlers = {
