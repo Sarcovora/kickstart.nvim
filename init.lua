@@ -111,7 +111,10 @@ vim.api.nvim_create_autocmd('BufEnter', {
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Save
-vim.keymap.set('n', '<leader>w', '<cmd>wa<CR>')
+vim.keymap.set('n', '<leader>w', '<cmd>wa<CR>', { desc = 'Save all open buffers' })
+
+-- Select all
+vim.keymap.set('n', '<leader>a', 'ggVG', { desc = 'Select all' })
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
@@ -210,7 +213,7 @@ require('lazy').setup({
   require 'plugins.heirline',
   require 'plugins.incline',
   { 'sitiom/nvim-numbertoggle' },
-  -- require 'plugins.dropbar', -- breadcrumbs
+  require 'plugins.dropbar', -- breadcrumbs
   -- require 'plugins.treesitter_context', -- shows the current context of your code (function, class, etc.) in top bar... can be annoying
   require 'plugins.guess-indent', -- Automatically detect tabstop and shiftwidth
   require 'plugins.hlchunk',
