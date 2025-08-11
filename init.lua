@@ -188,6 +188,7 @@ rtp:prepend(lazypath)
 vim.env.MASON_PYTHON = '/usr/bin/python3'
 
 require('lazy').setup({
+  require 'plugins.guess-indent', -- Automatically detect tabstop and shiftwidth
   require 'plugins.whichkey', -- useful plugin to show you pending keybinds.
   require 'plugins.telescope', -- fuzzy finder, file search, etc
 
@@ -215,12 +216,11 @@ require('lazy').setup({
   { 'sitiom/nvim-numbertoggle' },
   require 'plugins.dropbar', -- breadcrumbs
   -- require 'plugins.treesitter_context', -- shows the current context of your code (function, class, etc.) in top bar... can be annoying
-  require 'plugins.guess-indent', -- Automatically detect tabstop and shiftwidth
   require 'plugins.hlchunk',
+  -- require 'plugins.indent_line', -- adds vertical lines to show indent levels
 
   -- Functional
   require 'plugins.autopairs',
-  require 'plugins.indent_line', -- adds vertical lines to show indent levels
   require 'plugins.gitsigns', -- adds gitsigns recommend keymaps
   require 'plugins.treesj',
   require 'plugins.lint',
