@@ -5,12 +5,24 @@ return {
   cmd = { 'ConformInfo' },
   keys = {
     {
-      '<leader>f',
+      '<leader>ff',
       function()
         require('conform').format { async = true, lsp_format = 'fallback' }
       end,
       mode = '',
       desc = '[F]ormat buffer (conform)',
+    },
+    {
+      '<leader>fl',
+      function()
+        local save_cursor = vim.fn.getpos(".")
+        vim.cmd([[%s/\s\+$//e]])
+        vim.cmd([[%s/^\s\+$//e]])
+        vim.fn.setpos(".", save_cursor)
+        print("Cleaned trailing whitespace")
+      end,
+      mode = 'n',
+      desc = 'Clean trailing whitespace',
     },
   },
   opts = {
