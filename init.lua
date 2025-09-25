@@ -185,7 +185,9 @@ local rtp = vim.opt.rtp
 rtp:prepend(lazypath)
 
 -- Setting the MASON_PYTHON environment variable
-vim.env.MASON_PYTHON = '/usr/bin/python3'
+-- Use Mason’s bundled Python (recommended). If you need a custom interpreter,
+-- set MASON_PYTHON only if you also install pylsp into that interpreter.
+-- vim.env.MASON_PYTHON = '/usr/bin/python3'
 
 require('lazy').setup({
   require 'plugins.guess-indent', -- Automatically detect tabstop and shiftwidth
