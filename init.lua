@@ -155,6 +155,25 @@ vim.keymap.set('n', '<leader>ld', function()
   diagnostics_enabled = not diagnostics_enabled
 end, { desc = 'Toggle [L]inter [D]iagnostics' })
 
+-- Convert tabs to spaces and set tab width
+vim.keymap.set('n', '<leader>ft', function()
+  vim.ui.input({ prompt = 'Set tab width: ', default = tostring(vim.bo.tabstop) }, function(input)
+    if input then
+      local width = tonumber(input)
+      if width and width > 0 then
+        vim.bo.tabstop = width
+        vim.bo.shiftwidth = width
+        vim.bo.softtabstop = width
+        vim.bo.expandtab = true
+        vim.cmd('retab')
+        vim.notify(string.format('Converted tabs to %d spaces', width), vim.log.levels.INFO)
+      else
+        vim.notify('Invalid tab width', vim.log.levels.ERROR)
+      end
+    end
+  end)
+end, { desc = 'Convert [T]abs to [S]paces and set width' })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
