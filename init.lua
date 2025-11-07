@@ -263,8 +263,8 @@ require('lazy').setup({
   require 'plugins.autosession',
 
   -- Stack dependant add-ons
-  -- require 'plugins.render_markdown', -- renders markdown files in a floating window
-  require 'plugins.markdown_preview',
+  require 'plugins.render_markdown',
+  -- require 'plugins.markdown_preview', -- renders markdown files in a floating window
   require 'plugins.vimtex',
 
   -- AI
