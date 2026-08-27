@@ -49,6 +49,7 @@ return { -- Useful plugin to show you pending keybinds.
       { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
       { '<leader>n', group = '[N]eotest' },
       { '<leader>no', group = '[N]eotest [O]utput' },
+      { '<leader>l', group = '[L]atex and Misc' },
     },
   },
 }
