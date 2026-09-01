@@ -1,5 +1,25 @@
 # My custom neovim config, forked from kickstart.nvim
 
+## Branches
+
+| Branch | Requires | nvim-treesitter |
+|---|---|---|
+| `master` | **Neovim 0.12+** | `main` branch (the rewrite) |
+| `nvim-0.11` | Neovim 0.11.x | `master` branch (frozen upstream) |
+
+`master` is the one that tracks current versions. On a machine still stuck on
+Neovim 0.11, check out `nvim-0.11` instead — nvim-treesitter's `main` branch
+dropped 0.11 support, and its `master` branch is frozen but kept working for
+exactly that case.
+
+```sh
+git clone https://github.com/Sarcovora/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
+cd "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim && git checkout nvim-0.11   # only if on Neovim 0.11
+```
+
+`master` additionally needs `tree-sitter-cli` >= 0.26.1 on `$PATH`, installed
+via a package manager rather than npm (`brew install tree-sitter-cli`).
+
 ## Cloning this config
 
 ```sh
