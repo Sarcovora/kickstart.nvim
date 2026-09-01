@@ -1,5 +1,9 @@
 return { -- Highlight, edit, and navigate code
   'nvim-treesitter/nvim-treesitter',
+  -- Upstream's default branch is now `main`, a full incompatible rewrite that
+  -- requires Neovim 0.12+. Pin `master` explicitly so a fresh install on an older
+  -- machine can't silently land on `main` and break highlighting.
+  branch = 'master',
   build = ':TSUpdate',
   main = 'nvim-treesitter.configs', -- Sets main module to use for opts
   -- [[ Configure Treesitter ]] See `:help nvim-treesitter`

@@ -43,11 +43,28 @@ return {
 
       -- Create autocommand which carries out the actual linting
       -- on the specified events.
+      --
+      -- Only run linters whose executable is actually installed. nvim-lint throws
+      -- ENOENT for a missing binary, and because this fires on BufEnter that error
+      -- surfaces from inside unrelated window operations — closing a Telescope
+      -- picker, for instance, which aborts whatever the picker was doing.
       local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })
       vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave' }, {
         group = lint_augroup,
         callback = function()
-          lint.try_lint()
+          local names = lint.linters_by_ft[vim.bo.filetype] or {}
+          local available = vim.tbl_filter(function(name)
+            local linter = lint.linters[name]
+            if type(linter) == 'function' then
+              linter = linter()
+            end
+            local cmd = linter and linter.cmd
+            return cmd ~= nil and vim.fn.executable(cmd) == 1
+          end, names)
+
+          if #available > 0 then
+            lint.try_lint(available)
+          end
         end,
       })
     end,

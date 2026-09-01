@@ -66,9 +66,6 @@ vim.o.laststatus = 3
 -- Buffer related options
 vim.o.hidden = true
 
--- Lazyredraw: Avoid unnecessary screen redraws during macro execution or long commands
-vim.o.lazyredraw = true
-
 vim.o.autoread = true -- Auto reload files changed outside of vim
 
 -- Folding
@@ -179,12 +176,12 @@ end, { desc = 'Convert [T]abs to [S]paces and set width' })
 
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
---  See `:help vim.highlight.on_yank()`
+--  See `:help vim.hl.on_yank()`
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
   callback = function()
-    vim.highlight.on_yank()
+    vim.hl.on_yank()
   end,
 })
 

@@ -130,22 +130,6 @@ return { -- Fuzzy Finder (files, lsp, etc)
       builtin.find_files()
     end
 
-    local function live_grep_project()
-      -- Respect .gitignore; include dotfiles; explicitly exclude hogs
-      local args = { '--hidden' }
-      for _, pat in ipairs(HOGS) do
-        -- convert lua-style patterns to ripgrep globs (best-effort)
-        local glob = pat:gsub('%%%.', '.'):gsub('%^', '') -- drop anchors / escapes
-        table.insert(args, '--glob')
-        table.insert(args, '!' .. glob)
-      end
-      builtin.live_grep {
-        additional_args = function()
-          return args
-        end,
-      }
-    end
-
     local function find_files_include_ignored()
       -- Include ignored files (e.g., if .env is git-ignored) but still exclude hogs manually.
       builtin.find_files {
@@ -153,21 +137,6 @@ return { -- Fuzzy Finder (files, lsp, etc)
         follow = true,
         no_ignore = true, -- ignore .gitignore/.ignore
         file_ignore_patterns = HOGS,
-      }
-    end
-
-    local function live_grep_include_ignored()
-      -- -uu => --hidden + --no-ignore + --binary (binary is fine; ripgrep skips unreadable)
-      local args = { '-uu' }
-      for _, pat in ipairs(HOGS) do
-        local glob = pat:gsub('%%%.', '.'):gsub('%^', '')
-        table.insert(args, '--glob')
-        table.insert(args, '!' .. glob)
-      end
-      builtin.live_grep {
-        additional_args = function()
-          return args
-        end,
       }
     end
 
@@ -198,7 +167,6 @@ return { -- Fuzzy Finder (files, lsp, etc)
 
     -- Fast project grep that respects VCS ignore, includes dotfiles, and prunes hogs
     local function live_grep_project()
-      local builtin = require 'telescope.builtin'
       builtin.live_grep {
         cwd = git_root(),
         additional_args = rg_prune_globs, -- function returning args is fine
@@ -207,7 +175,6 @@ return { -- Fuzzy Finder (files, lsp, etc)
 
     -- Variant: include ignored (e.g., if .env is git-ignored)
     local function live_grep_include_ignored()
-      local builtin = require 'telescope.builtin'
       local args = rg_prune_globs()
       table.insert(args, 1, '-uu') -- = --hidden + --no-ignore + (binary allowed)
       builtin.live_grep {

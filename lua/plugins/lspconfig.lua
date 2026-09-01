@@ -113,7 +113,7 @@ return {
         -- code, if the language server you are using supports them
         --
         -- This may be unwanted, since they displace some of your code
-        if client and client.supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
+        if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
           map('<leader>lh', function()
             local is_enabled = vim.lsp.inlay_hint.is_enabled { bufnr = event.buf }
             vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
@@ -239,23 +239,25 @@ return {
     local ensure_installed = vim.tbl_keys(servers or {})
     vim.list_extend(ensure_installed, {
       'stylua', -- Used to format Lua code
+      'markdownlint', -- The linter configured in plugins/lint.lua
     })
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
+    -- mason-lspconfig v2 removed the `handlers` option, and `require('lspconfig')[x].setup()`
+    -- is deprecated. Per-server config now goes through Neovim 0.11+'s `vim.lsp.config()`,
+    -- and mason-lspconfig's `automatic_enable` calls `vim.lsp.enable()` for what's installed.
+    vim.lsp.config('*', { capabilities = capabilities })
+    for server_name, server_opts in pairs(servers) do
+      vim.lsp.config(server_name, server_opts)
+    end
+
     require('mason-lspconfig').setup {
-      ensure_installed = { 'rust_analyzer', 'lua_ls' },
-      automatic_installation = false,
-      automatic_enable = true,
-      handlers = {
-        function(server_name)
-          local opts = servers[server_name] or {}
-          -- This handles overriding only values explicitly passed
-          -- by the server configuration above. Useful when disabling
-          -- certain features of an LSP (for example, turning off formatting for ts_ls)
-          opts.capabilities = vim.tbl_deep_extend('force', capabilities, opts.capabilities or {})
-          require('lspconfig')[server_name].setup(opts)
-        end,
-      },
+      -- `mason-tool-installer` above is already fed `vim.tbl_keys(servers)`, so this
+      -- stays empty to avoid two installers fighting over the same list.
+      ensure_installed = {},
+      -- pyright and pylsp both attach to Python and double up every diagnostic.
+      -- Swap the exclusion if you'd rather run pyright.
+      automatic_enable = { exclude = { 'pyright' } },
     }
   end,
 }
