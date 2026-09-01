@@ -12,21 +12,14 @@ Neovim 0.11, check out `nvim-0.11` instead — nvim-treesitter's `main` branch
 dropped 0.11 support, and its `master` branch is frozen but kept working for
 exactly that case.
 
-```sh
-git clone https://github.com/Sarcovora/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
-cd "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim && git checkout nvim-0.11   # only if on Neovim 0.11
-```
-
-`master` additionally needs `tree-sitter-cli` >= 0.26.1 on `$PATH`, installed
-via a package manager rather than npm (`brew install tree-sitter-cli`).
-
 ## Cloning this config
 
 ```sh
 git clone https://github.com/Sarcovora/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
-```
 
-</details>
+# only if the machine is still on Neovim 0.11
+cd "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim && git checkout nvim-0.11
+```
 
 <details><summary> For Windows </summary>
 
@@ -47,9 +40,11 @@ git clone https://github.com/Sarcovora/kickstart.nvim.git "${env:LOCALAPPDATA}\n
 ## Installations
 
 ### Installing Neovim without SUDO:
-> **NOTE:** I believe this requires >= 0.9.6 nvim
-- `curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage`
-- `chmod u+x nvim.appimage`
+> **NOTE:** `master` needs Neovim **0.12+**; the `nvim-0.11` branch needs 0.11.x.
+> The release assets were renamed upstream — it's `nvim-linux-x86_64.appimage`
+> now, not `nvim.appimage` (use `-arm64` on ARM machines).
+- `curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage`
+- `chmod u+x nvim-linux-x86_64.appimage`
 - `echo 'export PATH="$HOME/{WHATEVER PATH HERE}:$PATH"' >> ~/.zshrc && source ~/.zshrc`
 	- one that I use is: `/home/ekuo/.local/bin`
 
@@ -76,14 +71,30 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 
 <details><summary>External Requirements</summary>
 
-- Basic utils: `git`, `make`, `unzip`, C Compiler (`gcc`) [ripgrep](https://github.com/BurntSushi/ripgrep#installation)
+**Required**
+
+- Basic utils: `git`, `make`, `unzip`, a C compiler (`gcc`/`clang`)
+- [`ripgrep`](https://github.com/BurntSushi/ripgrep#installation) — telescope's grep backend
 - Clipboard tool (xclip/xsel/win32yank or other depending on platform)
-- A [Nerd Font](https://www.nerdfonts.com/): optional, provides various icons
-  - if you have it set `vim.g.have_nerd_font` in `init.lua` to true
-- Language Setup:
-  - If you want to write Typescript, you need `npm`
-  - If you want to write Golang, you will need `go`
-  - etc.
+- On `master` only: [`tree-sitter-cli`](https://github.com/tree-sitter/tree-sitter)
+  **>= 0.26.1**, installed via a package manager rather than npm
+  (`brew install tree-sitter-cli`). nvim-treesitter's `main` branch builds
+  parsers with it. Not needed on `nvim-0.11`.
+
+**Optional but assumed by parts of the config**
+
+- A [Nerd Font](https://www.nerdfonts.com/) — icons throughout; `vim.g.have_nerd_font` in `init.lua` is set to `true`
+- [`fd`](https://github.com/sharkdp/fd) — `telescope.lua` prefers it for file listing and falls back to `rg --files`
+- [`lazygit`](https://github.com/jesseduffield/lazygit) — required by `lazygit.lua` (`<leader>gg`)
+- [`yazi`](https://github.com/sxyazi/yazi) — required by `yazi.lua`
+- `node`/`npm` — Mason installs the TypeScript, Angular and markdownlint tooling through it
+- `python3` — pylsp
+- A LaTeX toolchain + a PDF viewer — `vimtex.lua`
+- The [`claude`](https://claude.ai/code) CLI — `claude-code.lua` (`<leader>cc`)
+
+Language servers, formatters and linters themselves are installed by
+[Mason](https://github.com/mason-org/mason.nvim) on first launch (`:Mason`), so
+they don't need to be on the system beforehand.
 
 > **NOTE**
 > [Backup](#FAQ) your previous configuration (if any exists)
@@ -107,7 +118,7 @@ Neovim's configurations are located under the following paths, depending on your
 
 Below you can find OS specific install instructions for Neovim and dependencies.
 
-After installing all the dependencies continue with the [Install Kickstart](#Install-Kickstart) step.
+After installing all the dependencies continue with [Cloning this config](#cloning-this-config).
 
 <details><summary>Windows Installation</summary>
 
@@ -173,15 +184,16 @@ sudo apt update
 sudo apt install make gcc ripgrep unzip git xclip curl
 
 # Now we install nvim
-curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
-sudo rm -rf /opt/nvim-linux64
-sudo mkdir -p /opt/nvim-linux64
-sudo chmod a+rX /opt/nvim-linux64
-sudo tar -C /opt -xzf nvim-linux64.tar.gz
+curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
+sudo rm -rf /opt/nvim-linux-x86_64
+sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
 
 # make it available in /usr/local/bin, distro installs to /usr/bin
-sudo ln -sf /opt/nvim-linux64/bin/nvim /usr/local/bin/
+sudo ln -sf /opt/nvim-linux-x86_64/bin/nvim /usr/local/bin/
 ```
+
+> The distro packages in the `apt`/`dnf`/`pacman` recipes above are usually far
+> behind 0.12 — prefer this tarball, or the AppImage, on `master`.
 </details>
 <details><summary>Fedora Install Steps</summary>
 
@@ -199,9 +211,94 @@ sudo pacman -S --noconfirm --needed gcc make git ripgrep fd unzip neovim
 </details>
 
 ---
+
+## Plugins
+
+Every plugin lives in its own spec file under `lua/plugins/`, wired up in the
+`require('lazy').setup{}` call in `init.lua`. A few specs are checked in but
+commented out there — they're marked **off** below and load nothing until you
+uncomment the corresponding line.
+
+### Editing core
+
+| Spec | Plugin | Purpose |
+|---|---|---|
+| `treesitter.lua` | [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) | Parsers + highlighting/indent. `main` branch on `master`, `master` branch on `nvim-0.11` |
+| `lspconfig.lua` | [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) + [mason](https://github.com/mason-org/mason.nvim) | LSP setup, server install, diagnostics config |
+| `autocompletion.lua` | [blink.cmp](https://github.com/saghen/blink.cmp) | Completion, with [LuaSnip](https://github.com/L3MON4D3/LuaSnip) snippets |
+| `autoformat.lua` | [conform.nvim](https://github.com/stevearc/conform.nvim) | Formatting (`<leader>ff`), whitespace clean (`<leader>fl`) |
+| `lint.lua` | [nvim-lint](https://github.com/mfussenegger/nvim-lint) | Linting; only runs linters whose binary is present |
+| `debug.lua` | [nvim-dap](https://github.com/mfussenegger/nvim-dap) | Debugger + dap-ui |
+| `lazydev.lua` | [lazydev.nvim](https://github.com/folke/lazydev.nvim) | Lua LSP that understands the Neovim API |
+| `mini-nvim.lua` | [mini.nvim](https://github.com/echasnovski/mini.nvim) | Surround, extended text objects |
+| `autopairs.lua` | [nvim-autopairs](https://github.com/windwp/nvim-autopairs) | Bracket/quote pairing |
+| `guess-indent.lua` | [guess-indent.nvim](https://github.com/NMAC427/guess-indent.nvim) | Detect tabstop/shiftwidth per file |
+| `treesj.lua` | [treesj](https://github.com/Wansmer/treesj) | Split/join blocks |
+| `todo-comments.lua` | [todo-comments.nvim](https://github.com/folke/todo-comments.nvim) | Highlight TODO/NOTE/FIX |
+| `undotree.lua` | [undotree](https://github.com/mbbill/undotree) | Undo history browser |
+| `highlight-undo.lua` | [highlight-undo.nvim](https://github.com/tzachar/highlight-undo.nvim) | Flash what undo/redo changed |
+| `neotest.lua` | [neotest](https://github.com/nvim-neotest/neotest) | Test runner (`<leader>n…`) — **off** |
+
+### Navigation
+
+| Spec | Plugin | Purpose |
+|---|---|---|
+| `telescope.lua` | [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) | Fuzzy finder; `<leader>sf` files, `<leader>sg` repo-root grep, capitals include ignored files |
+| `neo-tree.lua` | [neo-tree.nvim](https://github.com/nvim-neo-tree/neo-tree.nvim) | Sidebar file explorer |
+| `oil.lua` | [oil.nvim](https://github.com/stevearc/oil.nvim) | Edit the filesystem as a buffer |
+| `yazi.lua` | [yazi.nvim](https://github.com/mikavilpas/yazi.nvim) | Yazi file manager (needs the `yazi` binary) |
+| `harpoon.lua` | [harpoon](https://github.com/ThePrimeagen/harpoon) | Pinned-file quick switching |
+| `buffer-manager.lua` | [buffer_manager.nvim](https://github.com/j-morano/buffer_manager.nvim) | Buffer list as an editable menu |
+| `outline.lua` | [outline.nvim](https://github.com/hedyhli/outline.nvim) | Symbol outline pane |
+| `leap.lua` | [leap.nvim](https://github.com/ggandor/leap.nvim) | Two-character motion jumps |
+| `autosession.lua` | [auto-session](https://github.com/rmagatti/auto-session) | Restore sessions per directory |
+| `whichkey.lua` | [which-key.nvim](https://github.com/folke/which-key.nvim) | Pending-keybind popup + `<leader>` group labels |
+
+### Appearance
+
+| Spec | Plugin | Purpose |
+|---|---|---|
+| `colorscheme.lua` | [rose-pine](https://github.com/rose-pine/neovim) | Colorscheme |
+| `heirline.lua` | [heirline.nvim](https://github.com/rebelot/heirline.nvim) | Statusline |
+| `incline.lua` | [incline.nvim](https://github.com/b0o/incline.nvim) | Floating per-window filename |
+| `dropbar.lua` | [dropbar.nvim](https://github.com/Bekaboo/dropbar.nvim) | Breadcrumb winbar |
+| `hlchunk.lua` | [hlchunk.nvim](https://github.com/shellRaining/hlchunk.nvim) | Highlight the enclosing code chunk |
+| `snacks.lua` | [snacks.nvim](https://github.com/folke/snacks.nvim) | Grab bag; only bigfile/quickfile/scope enabled |
+| `inline-diagnostic.lua` | [tiny-inline-diagnostic.nvim](https://github.com/rachartier/tiny-inline-diagnostic.nvim) | Prettier inline diagnostics |
+| `colorizer.lua` | [nvim-colorizer.lua](https://github.com/norcalli/nvim-colorizer.lua) | Render colour codes in place |
+| `treesitter_context.lua` | [nvim-treesitter-context](https://github.com/nvim-treesitter/nvim-treesitter-context) | Sticky context header — **off** |
+| `indent_line.lua` | [indent-blankline.nvim](https://github.com/lukas-reineke/indent-blankline.nvim) | Indent guides — **off**, superseded by hlchunk |
+
+### Git, writing, AI
+
+| Spec | Plugin | Purpose |
+|---|---|---|
+| `gitsigns.lua` | [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim) | Gutter signs, hunk keymaps (`<leader>h…`) |
+| `lazygit.lua` | [lazygit.nvim](https://github.com/kdheepak/lazygit.nvim) | Lazygit in a float (needs the `lazygit` binary) |
+| `render_markdown.lua` | [render-markdown.nvim](https://github.com/MeanderingProgrammer/render-markdown.nvim) | In-buffer markdown rendering |
+| `vimtex.lua` | [vimtex](https://github.com/lervag/vimtex) | LaTeX (`<leader>l…`) |
+| `claude-code.lua` | [claude-code.nvim](https://github.com/greggh/claude-code.nvim) | Claude Code in a split (`<leader>cc`) |
+| `markdown_preview.lua` | [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim) | Browser preview — **off** |
+| `copilot.lua` | [copilot.vim](https://github.com/github/copilot.vim) | GitHub Copilot — **off**, replaced by claude-code |
+
+Two plugins are declared inline in `init.lua` rather than getting their own
+spec file: [`csharpls-extended-lsp.nvim`](https://github.com/Decodetalkers/csharpls-extended-lsp.nvim)
+and [`nvim-numbertoggle`](https://github.com/sitiom/nvim-numbertoggle).
+
+`lua/plugins/plugin-data/` holds the CSS themes `markdown_preview.lua` points at.
+
+---
 ## Folder Structure
 ```
 .
+├── .github
+│   ├── ISSUE_TEMPLATE
+│   │   └── bug_report.md
+│   ├── pull_request_template.md
+│   └── workflows
+│       └── stylua.yml
+├── .gitignore
+├── .stylua.toml
 ├── LICENSE.md
 ├── README.md
 ├── init.lua
@@ -225,6 +322,7 @@ sudo pacman -S --noconfirm --needed gcc make git ripgrep fd unzip neovim
         ├── harpoon.lua
         ├── heirline.lua
         ├── highlight-undo.lua
+        ├── hlchunk.lua
         ├── incline.lua
         ├── indent_line.lua
         ├── inline-diagnostic.lua
@@ -240,11 +338,11 @@ sudo pacman -S --noconfirm --needed gcc make git ripgrep fd unzip neovim
         ├── oil.lua
         ├── outline.lua
         ├── plugin-data
-        │   ├── github_md.css
-        │   ├── md.css
-        │   ├── mdhl.css
-        │   ├── screen_md.css
-        │   └── splendor_md.css
+        │   ├── github_md.css
+        │   ├── md.css
+        │   ├── mdhl.css
+        │   ├── screen_md.css
+        │   └── splendor_md.css
         ├── render_markdown.lua
         ├── snacks.lua
         ├── telescope.lua
@@ -257,5 +355,5 @@ sudo pacman -S --noconfirm --needed gcc make git ripgrep fd unzip neovim
         ├── whichkey.lua
         └── yazi.lua
 
-4 directories, 51 files
+7 directories, 57 files
 ```
