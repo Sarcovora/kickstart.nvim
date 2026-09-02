@@ -265,7 +265,7 @@ uncomment the corresponding line.
 | `hlchunk.lua` | [hlchunk.nvim](https://github.com/shellRaining/hlchunk.nvim) | Highlight the enclosing code chunk |
 | `snacks.lua` | [snacks.nvim](https://github.com/folke/snacks.nvim) | Grab bag; only bigfile/quickfile/scope enabled |
 | `inline-diagnostic.lua` | [tiny-inline-diagnostic.nvim](https://github.com/rachartier/tiny-inline-diagnostic.nvim) | Prettier inline diagnostics |
-| `colorizer.lua` | [nvim-colorizer.lua](https://github.com/norcalli/nvim-colorizer.lua) | Render colour codes in place |
+| `colorizer.lua` | [nvim-colorizer.lua](https://github.com/catgoose/nvim-colorizer.lua) | Render colour codes in place (catgoose's maintained fork) |
 | `treesitter_context.lua` | [nvim-treesitter-context](https://github.com/nvim-treesitter/nvim-treesitter-context) | Sticky context header — **off** |
 | `indent_line.lua` | [indent-blankline.nvim](https://github.com/lukas-reineke/indent-blankline.nvim) | Indent guides — **off**, superseded by hlchunk |
 
